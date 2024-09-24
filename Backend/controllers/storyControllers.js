@@ -1,17 +1,58 @@
 const Story = require("../models/story");
-const User = require('../models/user')
+const User = require("../models/user");
 
 // Create a new story
 const createStory = async (req, res) => {
   const { author, slides } = req.body;
 
   try {
+    // Check if there are slides
+    if (!slides || slides.length === 0) {
+      return res.status(400).json({ message: "At least one slide is required" });
+    }
+
+    // Get the category from the last slide
+    const lastSlideCategory = slides[slides.length - 1].category;
+
+    // Apply the last slide's category to all slides
+    const updatedSlides = slides.map(slide => ({
+      ...slide,
+      category: lastSlideCategory
+    }));
+
+    // Create the story with updated slides
     const story = new Story({
       author,
-      slides,
+      slides: updatedSlides,
     });
+
+    // Save the story
     await story.save();
+
     res.status(201).json(story);
+  } catch (error) {
+    res.status(500).json({ message: "Server error", error: error.message });
+  }
+};
+
+// Filter stories by category
+const filterStoriesByCategory = async (req, res) => {
+  const { category } = req.params;
+
+  try {
+    // Find stories where at least one slide has the given category
+    const stories = await Story.find({ "slides.category": category }).populate(
+      "author",
+      "username"
+    );
+
+    if (stories.length === 0) {
+      return res
+        .status(404)
+        .json({ message: `No stories found for category: ${category}` });
+    }
+
+    res.status(200).json(stories);
   } catch (error) {
     res.status(500).json({ message: "Server error", error: error.message });
   }
@@ -20,9 +61,16 @@ const createStory = async (req, res) => {
 // Get All Stories
 const getAllStories = async (req, res) => {
   try {
-    const stories = await Story.find().populate("author", "username");
+    // Fetch all stories and populate the author field with the username
+    const stories = await Story.find().populate({
+      path: "author",
+      select: "username", // Only fetch the username field of the author
+    });
+
+    // Send the stories in the response
     res.status(200).json(stories);
   } catch (error) {
+    // Handle server errors
     res.status(500).json({ message: "Server error", error: error.message });
   }
 };
@@ -43,69 +91,123 @@ const getStory = async (req, res) => {
 };
 
 //   Like a Slide
+
 const likeSlide = async (req, res) => {
   const { storyId, slideNumber } = req.params;
-  const { userId } = req.body; // Assuming the user ID is passed in the request body
+  const userId = req.user._id; // Extract userId from req.user (set by authMiddleware)
 
   try {
-    const story = await Story.findOneAndUpdate(
-      { _id: storyId, "slides.slideNumber": slideNumber },
-      { $inc: { "slides.$.likeCount": 1 } }, // Increment the like count
-      { new: true }
-    );
+    // Find the story by ID and slideNumber
+    const story = await Story.findOne({
+      _id: storyId,
+      "slides.slideNumber": slideNumber,
+    });
 
     if (!story) {
       return res.status(404).json({ message: "Story or slide not found" });
     }
 
-    res.status(200).json({ message: "Slide liked successfully", story });
+    // Find the specific slide that the user wants to like/unlike
+    const slide = story.slides.find(
+      (slide) => slide.slideNumber === parseInt(slideNumber)
+    );
+
+    // Check if the user has already liked this slide
+    const userIndex = slide.likes.indexOf(userId);
+
+    if (userIndex !== -1) {
+      // If user has already liked the slide, remove the like (unlike)
+      slide.likes.splice(userIndex, 1); // Remove user from likes array
+      slide.likeCount -= 1; // Decrement the like count
+      await story.save();
+      return res
+        .status(200)
+        .json({ message: "Slide unliked successfully", story });
+    } else {
+      // If user hasn't liked the slide, add the like
+      slide.likes.push(userId); // Add user to likes array
+      slide.likeCount += 1; // Increment the like count
+      await story.save();
+      return res
+        .status(200)
+        .json({ message: "Slide liked successfully", story });
+    }
   } catch (error) {
     res.status(500).json({ message: "Server error", error: error.message });
   }
 };
-
-//   Bookmark a Slide
 const bookmarkSlide = async (req, res) => {
-    const { storyId, slideNumber } = req.params;
-    const { userId } = req.body;
-  
-    try {
-      // Find the story by ID
-      const story = await Story.findById(storyId);
-      if (!story) {
-        return res.status(404).json({ message: 'Story not found' });
-      }
-  
-      // Find the specific slide by slideNumber in the slides array
-      const slide = story.slides.find(s => s.slideNumber === parseInt(slideNumber));
-      if (!slide) {
-        return res.status(404).json({ message: 'Slide not found' });
-      }
-  
-      // Check if the user has already bookmarked the slide in the story
-      if (!slide.bookmarks.includes(userId)) {
-        slide.bookmarks.push(userId);  // Add userId to the bookmarks
-      }
-  
-      // Find the user and add the bookmark to their user schema
-      const user = await User.findById(userId);
-      const alreadyBookmarked = user.bookmarkedSlides.some(
-        bookmark => bookmark.storyId.equals(storyId) && bookmark.slideNumber === parseInt(slideNumber)
+  const { storyId, slideNumber } = req.params;
+  const userId = req.user._id; // Get userId from req.user (set by authMiddleware)
+
+  try {
+    // Find the story by ID
+    const story = await Story.findById(storyId);
+    if (!story) {
+      return res.status(404).json({ message: "Story not found" });
+    }
+
+    // Find the specific slide by slideNumber in the slides array
+    const slide = story.slides.find(
+      (s) => s.slideNumber === parseInt(slideNumber)
+    );
+    if (!slide) {
+      return res.status(404).json({ message: "Slide not found" });
+    }
+
+    // Find the user by ID
+    const user = await User.findById(userId);
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    // Check if the user has already bookmarked this slide in the story
+    const slideBookmarked = slide.bookmarks.includes(userId);
+
+    // Check if the user has already bookmarked this slide in the user schema
+    const alreadyBookmarked = user.bookmarkedSlides.some(
+      (bookmark) =>
+        bookmark.storyId.equals(storyId) &&
+        bookmark.slideNumber === parseInt(slideNumber)
+    );
+
+    if (slideBookmarked && alreadyBookmarked) {
+      // If user has already bookmarked, unbookmark the slide
+      slide.bookmarks = slide.bookmarks.filter(
+        (id) => id.toString() !== userId.toString()
       );
-  
-      if (!alreadyBookmarked) {
-        user.bookmarkedSlides.push({ storyId, slideNumber });  // Add storyId and slideNumber to user's bookmarks
+      user.bookmarkedSlides = user.bookmarkedSlides.filter(
+        (bookmark) =>
+          !(bookmark.storyId.equals(storyId) && bookmark.slideNumber === parseInt(slideNumber))
+      );
+
+      await story.save();
+      await user.save();
+      return res
+        .status(200)
+        .json({ message: "Slide unbookmarked successfully", story, user });
+    } else {
+      // If not already bookmarked, add to bookmarks
+      if (!slideBookmarked) {
+        slide.bookmarks.push(userId); // Add userId to the bookmarks
       }
-  
+
+      if (!alreadyBookmarked) {
+        user.bookmarkedSlides.push({ storyId, slideNumber }); // Add storyId and slideNumber to user's bookmarks
+      }
+
       // Save both the story and user updates
       await story.save();
       await user.save();
-  
-      res.status(200).json({ message: 'Slide bookmarked successfully', story, user });
-    } catch (error) {
-      res.status(500).json({ message: 'Server error', error: error.message });
+
+      return res
+        .status(200)
+        .json({ message: "Slide bookmarked successfully", story, user });
     }
-  };
+  } catch (error) {
+    res.status(500).json({ message: "Server error", error: error.message });
+  }
+};
 
 //   Update a Story
 const updateStory = async (req, res) => {
@@ -144,4 +246,13 @@ const deleteStory = async (req, res) => {
   }
 };
 
-module.exports = {createStory,getAllStories,getStory,likeSlide,bookmarkSlide,updateStory,deleteStory}
+module.exports = {
+  createStory,
+  getAllStories,
+  getStory,
+  likeSlide,
+  bookmarkSlide,
+  updateStory,
+  deleteStory,
+  filterStoriesByCategory,
+};

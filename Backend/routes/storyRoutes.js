@@ -8,13 +8,15 @@ const {
   bookmarkSlide,
   updateStory,
   deleteStory,
+  filterStoriesByCategory,
 } = require("../controllers/storyControllers");
 
 
 // Story routes
 router.post('/stories',createStory);
-router.get('/allstories',getAllStories);
+router.get('/stories',getAllStories);
 router.get('/stories/:storyId', getStory);
+router.get('/stories/category/:category', filterStoriesByCategory);
 router.put('/stories/:storyId/slides/:slideNumber/like', likeSlide);
 router.put('/stories/:storyId/slides/:slideNumber/bookmark', bookmarkSlide);
 router.put('/stories/:storyId', updateStory);
