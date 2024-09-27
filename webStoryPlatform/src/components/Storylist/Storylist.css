@@ -1,0 +1,25 @@
+/* Flex layout for stories */
+.story-list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    gap: 20px;
+    padding: 0 40px; /* Ensures consistent padding */
+  }
+  
+  /* Button styling */
+  .see-more-button {
+    background-color: #FF7373;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 18px;
+    font-weight: 700;
+    border-radius: 20px;
+    margin-top: 20px;
+    cursor: pointer;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  

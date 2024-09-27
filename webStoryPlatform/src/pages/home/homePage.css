@@ -1,0 +1,137 @@
+.home-page {
+  padding: 20px;
+  font-family: 'DM Sans', sans-serif;
+  width: 100vw;
+  overflow-x: hidden; /* Hide horizontal overflow */
+}
+
+/* Category Slider */
+/* Category Slider */
+.category-slider {
+  display: flex;
+  flex-wrap: nowrap;
+  overflow-x: hidden; /* Hide the horizontal scrollbar */
+  padding: 10px;
+  margin-bottom: 20px;
+  scroll-behavior: auto; /* Smooth scrolling effect */
+  position: relative;
+  gap: 20px;
+}
+
+/* Hide scrollbar for Webkit browsers (Chrome, Safari, etc.) */
+.category-slider::-webkit-scrollbar {
+  display: none;
+}
+
+.category-item {
+  width: 100%;
+  min-width: 250px; /* Set a minimum width to ensure items are evenly spaced */
+  aspect-ratio: 235 / 235; /* Maintain aspect ratio */
+  border-radius: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  margin-right: 15px;
+  cursor: pointer;
+  overflow: hidden;
+  background-color: #00000099;
+}
+
+
+.category-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 20px;
+  filter: blur(0.5px) brightness(40%);
+}
+
+.category-item.active {
+  border: 5px solid #00ACD2;
+}
+
+.category-item span {
+  position: absolute;
+  font-size: 30px;
+  color: #FFFFFF;
+  font-weight: 500;
+  text-align: center;
+}
+
+.story-section {
+  text-align: center;
+  margin-top: 40px;
+}
+
+.story-section h2 {
+  font-size: 30px;
+  font-weight: 700;
+  color: #000000;
+  margin-bottom: 50px;
+}
+
+.no-stories {
+  color: #8E8E8E;
+  font-size: 30px;
+  font-weight: 700;
+  margin-bottom: 180px;
+  margin-top: 120px;
+
+}
+
+/* Grid layout for stories */
+.story-list {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(250px, 1fr)); /* 4 columns, responsive size */
+  grid-gap: 50px; /* Spacing between cards */
+  padding: 0 40px; /* Padding for consistent spacing on left and right */
+  margin: 0 auto; /* Center the grid */
+  max-width: 100%; /* Max width to control spacing on larger screens */
+}
+
+.story-card {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 257 / 450; /* Fixed aspect ratio for width/height */
+  border-radius: 20px;
+  background-color: #fff;
+  overflow: hidden;
+}
+
+/* Button styling */
+.see-more-button {
+  background-color: #FF7373;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  font-size: 18px;
+  font-weight: 700;
+  border-radius: 20px;
+  margin-top: 20px;
+  cursor: pointer;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Responsive Design */
+@media (max-width: 1200px) {
+  .story-list {
+    grid-template-columns: repeat(3, minmax(200px, 1fr)); /* 3 cards per row on smaller screens */
+  }
+}
+
+@media (max-width: 768px) {
+  .story-list {
+    grid-template-columns: repeat(2, minmax(150px, 1fr)); /* 2 cards per row on smaller screens */
+    padding: 0 20px; /* Adjust padding for smaller screens */
+  }
+}
+
+@media (max-width: 480px) {
+  .story-list {
+    grid-template-columns: 1fr; /* 1 card per row on very small screens */
+    padding: 0 15px; /* Adjust padding for smallest screens */
+  }
+}
