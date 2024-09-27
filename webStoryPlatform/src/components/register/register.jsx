@@ -4,7 +4,7 @@ import eye from '../../assets/eye.png';
 import close from '../../assets/close.png';
 import { registerUser } from '../../services/authServices'; // Import the service
 
-const Register = ({ onClose }) => {
+const Register = ({ onClose, onLogin }) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [passwordVisible, setPasswordVisible] = useState(false);
@@ -19,9 +19,10 @@ const Register = ({ onClose }) => {
     try {
       const data = await registerUser(username, password); // Call the service
       alert(data.message); // Show success message or handle success
+      onLogin(); // Notify header that the user is now logged in
       onClose(); // Close the modal
     } catch (error) {
-      setErrorMessage(error); // Set error message
+      setErrorMessage(error.message); // Set error message
     }
   };
 
@@ -56,7 +57,7 @@ const Register = ({ onClose }) => {
             />
             <span className="password-toggle" onClick={togglePasswordVisibility}>
               <img
-                src={passwordVisible ? eye : eye}
+                src={eye}
                 alt="Toggle Password Visibility"
                 className="toggle-icon"
               />
