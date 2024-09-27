@@ -1,0 +1,132 @@
+/* Apply DM Sans font to the entire body */
+body {
+    font-family: 'DM Sans', sans-serif;
+}
+
+.signin-modal {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 624px;
+    height: 482px;
+    background-color: #ffffff;
+    box-shadow: 0px 0px 30px rgba(0, 0, 0, 0.15);
+    border-radius: 15px;
+    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    gap: 50px;
+}
+
+.signin-modal h2 {
+    font-size: 25px;
+    font-weight: 700;
+    line-height: 32.55px;
+    text-align: center;
+}
+
+.signin-username-div, .signin-password-container {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    width: 100%;
+}
+
+.signin-modal label {
+    font-size: 20px;
+    font-weight: 700;
+    margin-right: 15px;
+}
+
+.signin-modal input {
+    width: 245px;
+    height: 35px;
+    padding: 10px;
+    font-size: 14px;
+    border: 1px solid #000000;
+    border-radius: 4px;
+}
+
+.signin-password-container {
+    position: relative;
+    width: 100%;
+}
+
+.signin-password-container input {
+    width: 245px;
+    height: 35px;
+    padding-right: 35px;
+}
+
+.signin-password-toggle {
+    position: absolute;
+    top: 50%;
+    right: 80px;
+    transform: translateY(-50%);
+    cursor: pointer;
+    font-size: 18px;
+}
+
+.signin-modal form {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 35px;
+}
+
+.signin-modal .signin-btn {
+    background-color: #73ABFF;
+    color: #000000;
+    padding: 10px 30px;
+    font-size: 18px;
+    font-weight: 700;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+    width: 129px;
+    margin: 0 auto;
+    display: block;
+    position: relative;
+    top: 40px;
+}
+
+.signin-modal .signin-close-btn {
+    position: absolute;
+    top: 60px;
+    right: 60px;
+    height: 35.64px;
+    width: 35.64px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 18px;
+    color: #ff0000;
+}
+
+.signin-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 999;
+}
+
+.error-message {
+    color: #FF0E0E; /* Red color for error */
+    font-weight: 700;
+    text-align: center; /* Center the error message */
+    font-size: 16px;
+    position: absolute; /* Position it absolutely */
+    top: 320px; /* Adjust as per the position where you want it to appear */
+    left: 50%;
+    transform: translateX(-50%); /* Center horizontally */
+    width: 100%; /* Ensure the error message spans across the modal */
+    margin: 0 auto;
+}
+

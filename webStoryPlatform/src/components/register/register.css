@@ -1,0 +1,122 @@
+/* Apply DM Sans font to the entire body */
+body {
+    font-family: 'DM Sans', sans-serif;
+}
+
+.register-modal {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 624px;
+    height: 482px;
+    background-color: #ffffff;
+    box-shadow: 0px 0px 30px rgba(0, 0, 0, 0.15);
+    border-radius: 15px;
+    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    gap: 50px;
+}
+
+.register-modal h2 {
+    font-size: 25px;
+    font-weight: 700;
+    line-height: 32.55px;
+    text-align: center;
+}
+
+.username-div, .password-container {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    width: 100%; /* Ensure the inputs are aligned properly */
+}
+
+.register-modal label {
+    font-size: 20px;
+    font-weight: 700;
+    margin-right: 15px;
+    /* margin-top: 10px; */
+}
+
+.register-modal input {
+    width: 245px;
+    height: 35px;
+    padding: 10px;
+    font-size: 14px;
+    border: 1px solid #000000;
+    border-radius: 4px;
+}
+
+.password-container {
+    position: relative;
+    width: 100%;
+}
+
+.password-container input {
+    width: 245px;
+    height: 35px;
+    padding-right: 35px; /* Add space for the eye icon */
+}
+
+.password-container .password-toggle {
+    position: absolute;
+    top: 50%;
+    right: 80px;
+    transform: translateY(-50%);
+    cursor: pointer;
+    font-size: 18px;
+}
+
+.register-modal form {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 35px;   
+}
+
+.register-modal .register-btn {
+    background-color: #73ABFF;
+    color: #000000;
+    padding: 10px 30px;
+    font-size: 18px;
+    font-weight: 700;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+    width: 129px;
+    margin: 0 auto; /* Centers the button */
+    display: block; 
+    position: relative;
+    top: 40px;
+}
+
+
+.register-modal .close-btn {
+    position: absolute;
+    top: 60px;
+    right: 60px;
+    height: 35.64px;
+    width: 35.64px ;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 18px;
+    color: #ff0000;
+}
+
+
+
+.register-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 999;
+}
