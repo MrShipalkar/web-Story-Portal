@@ -1,12 +1,12 @@
 import React from 'react';
 import StoryCard from '../StoryCard/StoryCard.jsx';
-import './Storylist.css'; // Add styles
+import './Storylist.css'; 
 
-const StoryList = ({ stories }) => {
+const StoryList = ({ stories, showEditButton }) => {
   return (
     <div className="story-list">
       {stories.map((story, index) => (
-        <StoryCard key={index} story={story} />
+        <StoryCard key={index} story={story} showEditButton={showEditButton} />
       ))}
     </div>
   );

@@ -1,21 +1,28 @@
+.story-card-wrapper {
+  position: relative;
+  width: 100%;
+  /* Keep the same width as the story card */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
 .story-card {
   position: relative;
   border-radius: 20px;
   overflow: hidden;
   width: 100%;
   height: auto;
-  aspect-ratio: 257 / 459; /* Maintain aspect ratio */
+  aspect-ratio: 257 / 459;
+  /* Maintain aspect ratio */
   text-align: left;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   background-color: #f9f9f9;
   text-decoration: none;
   color: inherit;
-  transition: transform 0.3s ease;
 }
 
-.story-card:hover {
-  transform: scale(1.02);
-}
+
 
 .story-card__image {
   position: relative;
@@ -36,7 +43,7 @@
   bottom: 0;
   left: 0;
   right: 0;
-  background: 
+  background:
     linear-gradient(180deg, rgba(0, 0, 0, 1) 15%, rgba(0, 0, 0, 0) 55%),
     linear-gradient(0deg, rgba(0, 0, 0, 1) 25%, rgba(0, 0, 0, 0) 55%);
   color: white;
@@ -60,4 +67,31 @@
   font-weight: 700;
   color: #FFFFFF;
   margin: 5px 0 0;
+}
+
+/* Edit button styling */
+.story-card__edit-btn {
+  position: absolute;
+  bottom: -20px;
+  background-color: #fff;
+  color: #000000;
+  padding: 8px 16px;
+  border-radius: 30px;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0px 4px 4px 0px #00000040;
+  border: none;
+  margin-top: 10px;
+  min-width: 79px;
+  min-height: 34px;
+  aspect-ratio: 100/40;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.story-card__edit-btn img {
+  width: 24px;
+  height: 24px;
+  padding: 2px 3px 3px 2px;
 }
