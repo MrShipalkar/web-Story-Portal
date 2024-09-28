@@ -3,30 +3,27 @@ const User = require("../models/user");
 
 // Create a new story
 const createStory = async (req, res) => {
-  const { author, slides } = req.body;
-
   try {
-    // Check if there are slides
+    const { slides } = req.body;
+    const author = req.user._id; // Get the author from the authenticated user
+
     if (!slides || slides.length === 0) {
       return res.status(400).json({ message: "At least one slide is required" });
     }
 
-    // Get the category from the last slide
     const lastSlideCategory = slides[slides.length - 1].category;
 
-    // Apply the last slide's category to all slides
-    const updatedSlides = slides.map(slide => ({
+    const updatedSlides = slides.map((slide, index) => ({
       ...slide,
-      category: lastSlideCategory
+      category: lastSlideCategory,
+      slideNumber: index + 1,
     }));
 
-    // Create the story with updated slides
     const story = new Story({
-      author,
+      author,  // Use the author from the middleware
       slides: updatedSlides,
     });
 
-    // Save the story
     await story.save();
 
     res.status(201).json(story);
@@ -34,6 +31,32 @@ const createStory = async (req, res) => {
     res.status(500).json({ message: "Server error", error: error.message });
   }
 };
+
+// Get Stories by User (Author)
+const getStoriesByUsername = async (req, res) => {
+  try {
+    const { username } = req.params;
+
+    // Find the user by username
+    const user = await User.findOne({ username });
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    // Find all stories authored by this user
+    const stories = await Story.find({ author: user._id }).populate('author', 'username');
+
+    // If no stories found, send a 404
+    if (!stories.length) {
+      return res.status(404).json({ message: 'No stories found for this user' });
+    }
+
+    res.status(200).json(stories); // Return the user's stories
+  } catch (error) {
+    res.status(500).json({ message: 'Server error', error: error.message });
+  }
+};
+
 
 // Filter stories by category
 const filterStoriesByCategory = async (req, res) => {
@@ -255,4 +278,5 @@ module.exports = {
   updateStory,
   deleteStory,
   filterStoriesByCategory,
+  getStoriesByUsername
 };

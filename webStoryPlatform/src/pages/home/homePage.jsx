@@ -1,38 +1,66 @@
-// src/pages/HomePage.jsx
 import React, { useState, useEffect, useRef } from 'react';
 import StoryList from '../../components/Storylist/storylist.jsx';
-import { fetchStoriesByCategory } from '../../services/storyServices.js';
+import { fetchStoriesByCategory, fetchUserStories } from '../../services/storyServices.js'; // Import fetchUserStories
 import './HomePage.css'; // Style the homepage
 
-const categories = ['All', 'movie', 'Fruits', 'World', 'India','All', 'movie', 'Fruits', 'World', 'India']; // Define categories
+const categories = ["All", "Food", "Fashion", "Sports", "Travel", "Movie", "Education", "Business"]; // Define categories
 
 const HomePage = () => {
   const [storiesByCategory, setStoriesByCategory] = useState({}); // State to track stories for each category
-  const [visibleStories, setVisibleStories] = useState({}); // Track how many stories are visible for each category
+  const [userStories, setUserStories] = useState([]); // State to track user's stories
+  const [visibleStories, setVisibleStories] = useState({}); // Track how many stories are visible for each category and user stories
+  const [sortedCategories, setSortedCategories] = useState([]); // State to store sorted categories
   const [selectedCategory, setSelectedCategory] = useState('All'); // State to track the active category
+  const [isLoggedIn, setIsLoggedIn] = useState(false); // State to track if the user is logged in
   const categorySliderRef = useRef(null); // Ref for the category slider
 
-  // Fetch stories for each category
+  // Fetch stories for each category and sort based on story count
   useEffect(() => {
     const loadStories = async () => {
       const storiesData = {};
-
       for (let category of categories) {
         const data = await fetchStoriesByCategory(category);
         storiesData[category] = data;
       }
-
       setStoriesByCategory(storiesData);
 
-      // Initialize visible stories for each category to 4
-      const initialVisibleStories = {};
+      // Initialize visible stories for each category and for user stories to 4
+      const initialVisibleStories = { userStories: 4 };
       categories.forEach((category) => {
         initialVisibleStories[category] = 4;
       });
       setVisibleStories(initialVisibleStories);
+
+      // Sort categories by the number of stories in descending order, ignoring "All"
+      const sorted = categories
+        .filter((category) => category !== 'All')
+        .sort((a, b) => (storiesData[b].length || 0) - (storiesData[a].length || 0));
+      setSortedCategories(sorted);
     };
 
     loadStories();
+  }, []);
+
+  // Check if the user is logged in and fetch their stories
+  useEffect(() => {
+    const username = localStorage.getItem('username'); // Fetch username from localStorage
+    console.log('Username retrieved:', username); // Debug log the username
+
+    if (username) {
+      setIsLoggedIn(true); // Mark the user as logged in
+      const fetchUserStoriesData = async () => {
+        try {
+          const userStories = await fetchUserStories(username); // Fetch user stories
+          console.log('User stories fetched:', userStories); // Debug log fetched stories
+          setUserStories(userStories);
+        } catch (error) {
+          console.error('Error fetching user stories:', error);
+        }
+      };
+      fetchUserStoriesData();
+    } else {
+      console.warn('No username found in localStorage');
+    }
   }, []);
 
   // Handle horizontal scroll for category slider
@@ -55,7 +83,7 @@ const HomePage = () => {
     };
   }, []);
 
-  // Handle "See More" for each category
+  // Handle "See More" for each category, including user stories
   const handleSeeMore = (category) => {
     setVisibleStories((prevVisible) => ({
       ...prevVisible,
@@ -78,33 +106,49 @@ const HomePage = () => {
         ))}
       </header>
 
-      {/* If 'All' is selected, show stories for all categories */}
+      {/* Ensure Your Stories show up first */}
+      {isLoggedIn && userStories.length > 0 && (
+        <section className="story-section your-stories-section">
+          <h2>Your Stories</h2>
+          <StoryList
+            stories={userStories.slice(0, visibleStories.userStories)} // Limit displayed user stories
+            showEditButton={true} // Pass a prop to show the edit button on user's stories
+          />
+          {visibleStories.userStories < userStories.length && (
+            <button
+              className="see-more-button"
+              onClick={() => handleSeeMore('userStories')} // Handle 'See More' for user stories
+            >
+              See More
+            </button>
+          )}
+        </section>
+      )}
+
+      {/* If 'All' is selected, show stories for all categories sorted by the number of stories */}
       {selectedCategory === 'All'
-        ? categories.map(
-            (category, index) =>
-              category !== 'All' && ( // Skip "All" as it doesn't have specific stories
-                <section className="story-section" key={index}>
-                  <h2>Top Stories About {category}</h2>
-                  {storiesByCategory[category] && storiesByCategory[category].length > 0 ? (
-                    <>
-                      <StoryList
-                        stories={storiesByCategory[category].slice(0, visibleStories[category])}
-                      />
-                      {visibleStories[category] < storiesByCategory[category].length && (
-                        <button
-                          className="see-more-button"
-                          onClick={() => handleSeeMore(category)}
-                        >
-                          See More
-                        </button>
-                      )}
-                    </>
-                  ) : (
-                    <p className="no-stories">No stories available</p>
+        ? sortedCategories.map((category, index) => (
+            <section className="story-section" key={index}>
+              <h2>Top Stories About {category}</h2>
+              {storiesByCategory[category] && storiesByCategory[category].length > 0 ? (
+                <>
+                  <StoryList
+                    stories={storiesByCategory[category].slice(0, visibleStories[category])} // Limit displayed stories
+                  />
+                  {visibleStories[category] < storiesByCategory[category].length && (
+                    <button
+                      className="see-more-button"
+                      onClick={() => handleSeeMore(category)} // Handle 'See More' for category stories
+                    >
+                      See More
+                    </button>
                   )}
-                </section>
-              )
-          )
+                </>
+              ) : (
+                <p className="no-stories">No stories available</p>
+              )}
+            </section>
+          ))
         : selectedCategory && (
             // If a specific category is selected, show stories from only that category
             <section className="story-section">
@@ -112,12 +156,12 @@ const HomePage = () => {
               {storiesByCategory[selectedCategory] && storiesByCategory[selectedCategory].length > 0 ? (
                 <>
                   <StoryList
-                    stories={storiesByCategory[selectedCategory].slice(0, visibleStories[selectedCategory])}
+                    stories={storiesByCategory[selectedCategory].slice(0, visibleStories[selectedCategory])} // Limit displayed stories
                   />
                   {visibleStories[selectedCategory] < storiesByCategory[selectedCategory].length && (
                     <button
                       className="see-more-button"
-                      onClick={() => handleSeeMore(selectedCategory)}
+                      onClick={() => handleSeeMore(selectedCategory)} // Handle 'See More' for selected category
                     >
                       See More
                     </button>

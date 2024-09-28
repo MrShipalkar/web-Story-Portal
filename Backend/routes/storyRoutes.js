@@ -9,6 +9,7 @@ const {
   updateStory,
   deleteStory,
   filterStoriesByCategory,
+  getStoriesByUsername
 } = require("../controllers/storyControllers");
 
 
@@ -16,6 +17,7 @@ const {
 router.post('/stories',createStory);
 router.get('/stories',getAllStories);
 router.get('/stories/:storyId', getStory);
+router.get("/stories/user/:username",getStoriesByUsername);
 router.get('/stories/category/:category', filterStoriesByCategory);
 router.put('/stories/:storyId/slides/:slideNumber/like', likeSlide);
 router.put('/stories/:storyId/slides/:slideNumber/bookmark', bookmarkSlide);

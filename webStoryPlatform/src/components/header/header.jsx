@@ -5,59 +5,47 @@ import SignIn from '../signIn/signIn.jsx';
 import Bookmark from '../../assets/Bookmark.png';
 import ham from '../../assets/ham.png';
 import Profile from '../../assets/Profile.png';
+import AddStoryModal from '../addStoryModal/addStoryModal.jsx'; // Import the AddStoryModal component
 
 const Header = () => {
-  const [isLoggedIn, setIsLoggedIn] = useState(false); // State to manage user login
-  const [username, setUsername] = useState(''); // State to store username
-  const [isRegisterModalOpen, setIsRegisterModalOpen] = useState(false); // State to manage the Register modal
-  const [isSignInModalOpen, setIsSignInModalOpen] = useState(false); // State to manage the Sign In modal
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false); // State for toggling the dropdown
+  const [isLoggedIn, setIsLoggedIn] = useState(false); 
+  const [username, setUsername] = useState(''); 
+  const [isRegisterModalOpen, setIsRegisterModalOpen] = useState(false);
+  const [isSignInModalOpen, setIsSignInModalOpen] = useState(false); 
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false); 
+  const [isAddStoryModalOpen, setIsAddStoryModalOpen] = useState(false); // Add story modal state
 
-  // Check for logged-in status and username from localStorage when the component mounts
   useEffect(() => {
     const loggedInStatus = localStorage.getItem('isLoggedIn');
-    const storedUsername = localStorage.getItem('username'); // Get username from localStorage
+    const storedUsername = localStorage.getItem('username');
     if (loggedInStatus) {
-      setIsLoggedIn(true); // Set the state if the user is already logged in
-      setUsername(storedUsername); // Set the username in state
+      setIsLoggedIn(true);
+      setUsername(storedUsername);
     }
   }, []);
 
-  // Disable scrolling when any modal is open
   useEffect(() => {
-    if (isRegisterModalOpen || isSignInModalOpen) {
-      document.body.style.overflow = 'hidden'; // Disable background scrolling
+    if (isRegisterModalOpen || isSignInModalOpen || isAddStoryModalOpen) {
+      document.body.style.overflow = 'hidden';
     } else {
-      document.body.style.overflow = ''; // Enable background scrolling
+      document.body.style.overflow = '';
     }
-  }, [isRegisterModalOpen, isSignInModalOpen]);
+  }, [isRegisterModalOpen, isSignInModalOpen, isAddStoryModalOpen]);
 
-  const handleRegisterClick = () => {
-    setIsRegisterModalOpen(true); // Open Register modal
-  };
-
-  const handleSignInClick = () => {
-    setIsSignInModalOpen(true); // Open Sign In modal
-  };
-
-  const handleCloseRegisterModal = () => {
-    setIsRegisterModalOpen(false); // Close Register modal
-  };
-
-  const handleCloseSignInModal = () => {
-    setIsSignInModalOpen(false); // Close Sign In modal
-  };
-
+  const handleRegisterClick = () => setIsRegisterModalOpen(true);
+  const handleSignInClick = () => setIsSignInModalOpen(true);
+  const handleAddStoryClick = () => setIsAddStoryModalOpen(true); // Open AddStory modal
+  const handleCloseRegisterModal = () => setIsRegisterModalOpen(false);
+  const handleCloseSignInModal = () => setIsSignInModalOpen(false);
+  const handleCloseAddStoryModal = () => setIsAddStoryModalOpen(false); // Close AddStory modal
   const handleLogout = () => {
-    localStorage.removeItem('isLoggedIn'); // Clear the login flag
-    localStorage.removeItem('username'); // Clear the username from localStorage
-    setIsLoggedIn(false); // Log the user out and change the header
-    setUsername(''); // Clear the username in the state
+    localStorage.removeItem('isLoggedIn');
+    localStorage.removeItem('username');
+    setIsLoggedIn(false);
+    setUsername('');
   };
 
-  const toggleDropdown = () => {
-    setIsDropdownOpen(!isDropdownOpen); // Toggle dropdown visibility
-  };
+  const toggleDropdown = () => setIsDropdownOpen(!isDropdownOpen);
 
   return (
     <>
@@ -69,7 +57,9 @@ const Header = () => {
                 <button className="bookmark-btn">
                   <img src={Bookmark} alt="Bookmark" /> Bookmarks
                 </button>
-                <button className="header-addstory-button">Add Story</button>
+                <button className="header-addstory-button" onClick={handleAddStoryClick}>
+                  Add Story
+                </button>
               </div>
               <div className="profile-section">
                 <img
@@ -82,10 +72,8 @@ const Header = () => {
                 </button>
                 {isDropdownOpen && (
                   <div className="dropdown">
-                    <span className="username">{username}</span> {/* Show username */}
-                    <button onClick={handleLogout} className="logout-btn">
-                      Logout
-                    </button>
+                    <span className="username">{username}</span>
+                    <button onClick={handleLogout} className="logout-btn">Logout</button>
                   </div>
                 )}
               </div>
@@ -103,27 +91,27 @@ const Header = () => {
         </nav>
       </header>
 
-      {/* Conditionally render the Register modal */}
       {isRegisterModalOpen && (
         <Register
           onClose={handleCloseRegisterModal}
           onLogin={() => {
             setIsLoggedIn(true);
-            setUsername(localStorage.getItem('username')); // Fetch username from localStorage after login
+            setUsername(localStorage.getItem('username'));
           }}
         />
       )}
 
-      {/* Conditionally render the Sign In modal */}
       {isSignInModalOpen && (
         <SignIn
           onClose={handleCloseSignInModal}
           onLogin={() => {
             setIsLoggedIn(true);
-            setUsername(localStorage.getItem('username')); // Fetch username from localStorage after login
+            setUsername(localStorage.getItem('username'));
           }}
         />
       )}
+
+      {isAddStoryModalOpen && <AddStoryModal onClose={handleCloseAddStoryModal} />} {/* AddStory Modal */}
     </>
   );
 };
