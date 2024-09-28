@@ -237,6 +237,9 @@ const updateStory = async (req, res) => {
   const { storyId } = req.params;
   const { slides } = req.body;
 
+  console.log("Story ID:", storyId);  // Log the story ID
+  console.log("Slides to update:", slides);  // Log the incoming slides
+
   try {
     const story = await Story.findByIdAndUpdate(
       storyId,
@@ -252,6 +255,7 @@ const updateStory = async (req, res) => {
     res.status(500).json({ message: "Server error", error: error.message });
   }
 };
+
 
 // Delete a Story
 const deleteStory = async (req, res) => {

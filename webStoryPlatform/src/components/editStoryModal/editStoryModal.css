@@ -1,5 +1,5 @@
 /* Modal overlay */
-.add-story-overlay {
+.edit-story-overlay {
     position: fixed;
     top: 0;
     left: 0;
@@ -9,8 +9,8 @@
     z-index: 999;
 }
 
-/* Add Story Modal */
-.add-story-modal {
+/* Edit Story Modal */
+.edit-story-modal {
     position: fixed;
     top: 50%;
     left: 50%;
@@ -24,29 +24,16 @@
 }
 
 /* Header of the modal */
-/* .add-story-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.add-story-header h2 {
-    font-size: 24px;
-    font-weight: 700;
-    color: #000; */
-/* } */
-
-.add-story-header img {
+.edit-story-header img {
     width: 24px;
     height: 24px;
     color: #FF0000;
     position: relative;
-    left: 580px;
+    left: 280px;
     cursor: pointer;
 }
 
-.add-story-header p {
-
+.edit-story-header p {
     color: #474141;
     position: relative;
     right: 40px;
@@ -56,14 +43,13 @@
 }
 
 /* Slide buttons */
-.slide-btn-container {
+.edit-slide-btn-container {
     display: flex;
     gap: 10px;
     margin-bottom: 20px;
     margin-top: 10px;
 }
-
-.slide-btn-container img {
+.edit-slide-btn-container img {
     width: 16px;
     height: 16px;
     cursor: pointer;
@@ -71,8 +57,7 @@
     bottom: 15px;
     left: 5px;
 }
-
-.slide-btn {
+.edit-slide-btn {
     font-size: 15px;
     font-weight: 700;
     line-height: 19.53px;
@@ -89,11 +74,11 @@
     align-items: center;
 }
 
-.slide-btn.active {
-    border: 2px solid #73ABFF
+.edit-slide-btn.active {
+    border: 2px solid #73ABFF;
 }
 
-.add-slide-btn {
+.edit-add-slide-btn {
     font-size: 15px;
     font-weight: 700;
     line-height: 19.53px;
@@ -111,13 +96,8 @@
     align-items: center;
 }
 
-.add-slide-btn .close-icon {
-    font-size: 14px;
-    color: #FF0000;
-}
-
 /* Input fields */
-.add-story-modal label {
+.edit-story-modal label {
     color: #000000;
     width: 150px;
     display: block;
@@ -127,36 +107,25 @@
     font-weight: 700;
 }
 
-.add-story-modal input,
-.add-story-modal textarea {
+.edit-story-modal input,
+.edit-story-modal textarea {
     width: 280px;
     height: 39px;
     padding: 8px;
     font-size: 14px;
-    font-family:'DM sans', sans-serif;
     border: 1px solid #000000;
     margin-bottom: 20px;
 }
 
-
-
-.add-story-modal textarea {
+.edit-story-modal textarea {
     resize: none;
     height: 80px;
-
 }
 
-.category-dis {
-    width: 177px;
-    font-size: 10px;
-    padding: 10px 35px;
-    font-weight: 500;
-    color: #000000;
 
-}
 
 /* Category Select */
-.add-story-modal select {
+.edit-story-modal select {
     width: 280px;
     height: 39px;
     border: 1px solid #000000;
@@ -164,12 +133,11 @@
     font-size: 14px;
 }
 
-.add-story-modal form div {
+.edit-story-modal form div {
     display: flex;
-
 }
 
-/* Previous, Next, and Post Buttons */
+/* Previous, Next, and Update Buttons */
 .btn-container {
     display: flex;
     justify-content: space-between;
@@ -177,7 +145,7 @@
     gap: 10px;
 }
 
-.previous-btn {
+.edit-previous-btn {
     background-color: #7EFF73;
     border: none;
     padding: 10px 20px;
@@ -191,7 +159,7 @@
     margin-left: 20px;
 }
 
-.next-btn {
+.edit-next-btn {
     background-color: #73ABFF;
     border: none;
     padding: 10px 20px;
@@ -204,7 +172,7 @@
     height: 41.3px;
 }
 
-.post-btn {
+.edit-post-btn {
     background-color: #FF7373;
     border: none;
     padding: 10px 20px;

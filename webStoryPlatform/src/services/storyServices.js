@@ -43,3 +43,16 @@ export const fetchUserStories = async (username) => {
   }
 };
 
+
+export const editStory = async (storyId, updatedStoryData, token) => {
+  const response = await axios.put(
+    `${API_URL}/stories/${storyId}`,  // Ensure the correct API route is used
+    updatedStoryData,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
+  return response.data;
+};
