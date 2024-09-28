@@ -41,6 +41,7 @@ const Header = () => {
   const handleLogout = () => {
     localStorage.removeItem('isLoggedIn');
     localStorage.removeItem('username');
+    localStorage.removeItem('token');
     setIsLoggedIn(false);
     setUsername('');
   };

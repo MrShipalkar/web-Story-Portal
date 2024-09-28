@@ -1,22 +1,28 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
 import './StoryCard.css'; // Add CSS for styling
 import edit from '../../assets/edit.png';
-import EditStoryModal from '../editStoryModal/editStoryModal'; // Import the modal
+import EditStoryModal from '../editStoryModal/editStoryModal'; // Import the edit modal
+import StoryModal from '../storymodel/StoryModal.jsx'; // Import the view story modal
 
 const StoryCard = ({ story, showEditButton }) => {
   const hasSlides = story.slides && story.slides.length > 0;
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  const [isStoryModalOpen, setIsStoryModalOpen] = useState(false); // Add state for StoryModal
 
   // Function to handle the edit button click
   const handleEditClick = () => {
-    setIsEditModalOpen(true); // Open the modal
+    setIsEditModalOpen(true); // Open the edit modal
+  };
+
+  // Function to handle the story click
+  const handleStoryClick = () => {
+    setIsStoryModalOpen(true); // Open the story view modal
   };
 
   return (
     <>
-      <div className="story-card-wrapper">  {/* New wrapper added */}
-        <Link to={`/story/${story._id}`} className="story-card"> {/* Make the whole card clickable */}
+      <div className="story-card-wrapper">
+        <div className="story-card" onClick={handleStoryClick}>  {/* Open StoryModal when clicked */}
           <div className="story-card__image">
             {hasSlides && story.slides[0].url && (
               <img src={story.slides[0].url} alt={story.slides[0].heading} />
@@ -26,7 +32,7 @@ const StoryCard = ({ story, showEditButton }) => {
               <p>{hasSlides ? story.slides[0].description : 'No description available'}</p>
             </div>
           </div>
-        </Link>
+        </div>
 
         {/* Render Edit button only if showEditButton is true */}
         {showEditButton && (
@@ -38,11 +44,19 @@ const StoryCard = ({ story, showEditButton }) => {
 
       {/* Render Edit Modal if isEditModalOpen is true */}
       {isEditModalOpen && (
-    <EditStoryModal
-        onClose={() => setIsEditModalOpen(false)}
-        storyData={story} // Pass story data to prefill the modal
-    />
-)}
+        <EditStoryModal
+          onClose={() => setIsEditModalOpen(false)}
+          storyData={story} // Pass story data to prefill the modal
+        />
+      )}
+
+      {/* Render Story Modal if isStoryModalOpen is true */}
+      {isStoryModalOpen && (
+        <StoryModal 
+          onClose={() => setIsStoryModalOpen(false)} // Close modal handler
+          story={story} // Pass the clicked story data
+        />
+      )}
     </>
   );
 };
