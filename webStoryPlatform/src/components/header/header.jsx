@@ -6,6 +6,7 @@ import Bookmark from '../../assets/Bookmark.png';
 import ham from '../../assets/ham.png';
 import Profile from '../../assets/Profile.png';
 import AddStoryModal from '../addStoryModal/addStoryModal.jsx'; // Import the AddStoryModal component
+import { useNavigate } from 'react-router-dom'; 
 
 const Header = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false); 
@@ -14,7 +15,10 @@ const Header = () => {
   const [isSignInModalOpen, setIsSignInModalOpen] = useState(false); 
   const [isDropdownOpen, setIsDropdownOpen] = useState(false); 
   const [isAddStoryModalOpen, setIsAddStoryModalOpen] = useState(false); // Add story modal state
-
+  const navigate = useNavigate();
+  const handleBookmarkClick = () => {
+    navigate('/bookmarked-stories'); // Navigate to bookmarked stories page
+  };
   useEffect(() => {
     const loggedInStatus = localStorage.getItem('isLoggedIn');
     const storedUsername = localStorage.getItem('username');
@@ -55,9 +59,9 @@ const Header = () => {
           {isLoggedIn ? (
             <div className="user-actions-wrapper">
               <div className="bookmark-story-wrapper">
-                <button className="bookmark-btn">
-                  <img src={Bookmark} alt="Bookmark" /> Bookmarks
-                </button>
+              <button className="bookmark-btn" onClick={handleBookmarkClick}>
+      <img src={Bookmark} alt="Bookmark" /> Bookmarks
+    </button>
                 <button className="header-addstory-button" onClick={handleAddStoryClick}>
                   Add Story
                 </button>

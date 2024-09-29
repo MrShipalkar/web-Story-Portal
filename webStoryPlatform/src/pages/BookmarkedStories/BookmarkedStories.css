@@ -1,0 +1,12 @@
+.bookmark-container h2 {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 50px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 30px;
+    font-weight: 700;
+    line-height: 39.06px;
+    text-align: center;
+
+}

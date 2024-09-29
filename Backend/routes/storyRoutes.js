@@ -13,7 +13,8 @@ const {
   getStoriesByUsername,
   likedslides,
   toggleBookmarkSlide,
-  fetchUserBookmarkedSlides
+  fetchUserBookmarkedSlides,
+  getBookmarkedStories
 } = require("../controllers/storyControllers");
 
 
@@ -25,7 +26,7 @@ router.get('/stories/category/:category', filterStoriesByCategory);
 router.get("/stories/user/:username",getStoriesByUsername);
 
 router.get('/stories/:storyId/liked-slides',auth,likedslides);
-
+router.get('/bookmarked-stories', auth, getBookmarkedStories);
 router.get('/stories/:storyId/bookmarked-slides',auth, fetchUserBookmarkedSlides);
 router.put('/stories/:storyId/slides/:slideNumber/like',auth,  likeSlide);
 router.put('/stories/:storyId/slides/:slideNumber/bookmark',auth,  toggleBookmarkSlide);
