@@ -56,3 +56,72 @@ export const editStory = async (storyId, updatedStoryData, token) => {
   );
   return response.data;
 };
+
+
+// Like/Unlike a slide
+export const toggleLikeSlide = async (storyId, slideNumber, token) => {
+  try {
+    const response = await axios.put(
+      `${API_URL}/stories/${storyId}/slides/${slideNumber}/like`,
+      {}, // Empty body
+      {
+        headers: {
+          Authorization: `Bearer ${token}`, // Attach token in Authorization header
+        },
+      }
+    );
+    return response.data;
+  } catch (error) {
+    console.error('Error toggling like for slide:', error);
+    throw error.response?.data?.message || 'Error occurred while toggling like';
+  }
+};
+
+export const fetchUserLikedSlides = async (storyId, token) => {
+  try {
+    const response = await axios.get(`${API_URL}/stories/${storyId}/liked-slides`, {
+      headers: {
+        Authorization: `Bearer ${token}`, // Send the token for authentication
+      },
+    });
+    return response.data; // Return the liked slides array
+  } catch (error) {
+    console.error('Error fetching liked slides:', error);
+    throw error.response?.data?.message || 'Error occurred while fetching liked slides';
+  }
+};
+
+export const toggleBookmarkSlide = async (storyId, slideNumber, token) => {
+  try {
+    const response = await axios.put(
+      `${API_URL}/stories/${storyId}/slides/${slideNumber}/bookmark`,
+      {},
+      {
+        headers: {
+          Authorization: `Bearer ${token}`, // Attach token in Authorization header
+        },
+      }
+    );
+    return response.data;
+  } catch (error) {
+    console.error('Error toggling bookmark for slide:', error);
+    throw error.response?.data?.message || 'Error occurred while toggling bookmark';
+  }
+};
+
+export const fetchUserBookmarkedSlides = async (storyId, token) => {
+  try {
+    const response = await axios.get(
+      `${API_URL}/stories/${storyId}/bookmarked-slides`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`, // Attach token in Authorization header
+        },
+      }
+    );
+    return response.data; // Return the list of bookmarked slide numbers
+  } catch (error) {
+    console.error('Error fetching bookmarked slides:', error);
+    throw error.response?.data?.message || 'Error occurred while fetching bookmarked slides';
+  }
+};

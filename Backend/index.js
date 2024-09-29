@@ -3,7 +3,6 @@ const dotenv = require("dotenv");
 const connectDB = require('./config/database')
 const authRoutes = require('./routes/authRoutes')
 const storyRoutes = require('./routes/storyRoutes')
-const auth =  require('./middleware/auth')
 const cors = require('cors')
 
 const app = express();
@@ -14,7 +13,7 @@ connectDB()
 app.use(express.json());
 app.use(cors())  // Enable cross-origin resource sharing (CORS) for all requests
 app.use('/api/auth',authRoutes);
-app.use('/api/story',auth, storyRoutes)
+app.use('/api/story', storyRoutes)
 
 
 const port = process.env.PORT;

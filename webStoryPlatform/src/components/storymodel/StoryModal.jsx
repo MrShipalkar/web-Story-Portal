@@ -4,13 +4,18 @@ import leftArrow from '../../assets/leftArrow.png';
 import rightArrow from '../../assets/rightArrow.png';
 import crossicon from '../../assets/cross.png';
 import shareIcon from '../../assets/share.png';
-import likeIcon from '../../assets/heart.png';
-import bookmarkIcon from '../../assets/storybookmark.png';
+import likeIcon from '../../assets/heart.png'; // Unliked heart icon
+import likedIcon from '../../assets/likedHeart.png'; // Liked heart icon
+import bookmarkIcon from '../../assets/bookmark.png'; // Unbookmarked icon
+import bookmarkedIcon from '../../assets/bookmarked.png'; // Bookmarked icon
 import downloadIcon from '../../assets/download.png'; // Importing the download icon
+import { toggleLikeSlide, fetchUserLikedSlides, toggleBookmarkSlide, fetchUserBookmarkedSlides } from '../../services/storyServices'; // Import necessary functions
 
 const StoryModal = ({ story, onClose, initialSlide = 0 }) => {
   const [currentSlide, setCurrentSlide] = useState(initialSlide);
-  const [isLoggedIn, setIsLoggedIn] = useState(false); // To track login status
+  const [isLoggedIn, setIsLoggedIn] = useState(false); // Track login status
+  const [likedSlides, setLikedSlides] = useState([]); // Track which slides are liked by the user
+  const [bookmarkedSlides, setBookmarkedSlides] = useState([]); // Track bookmarked slides
   const [notification, setNotification] = useState(false); // To show or hide the copied notification
   const slideDuration = 10; // Slide duration in seconds
 
@@ -20,8 +25,92 @@ const StoryModal = ({ story, onClose, initialSlide = 0 }) => {
   // Check for auth-token when the component mounts
   useEffect(() => {
     const authToken = localStorage.getItem('token'); // Check if auth-token exists
-    setIsLoggedIn(!!authToken); // If token is found, set user as logged in
-  }, []);
+    const userId = localStorage.getItem('userId'); // Get the logged-in user ID
+
+    if (authToken) {
+      setIsLoggedIn(true);
+      // Fetch liked and bookmarked slides for the current story
+      fetchLikedSlides(authToken);
+      fetchBookmarkedSlides(authToken);
+    } else {
+      setIsLoggedIn(false);
+    }
+  }, [story._id]);
+
+  // Function to fetch liked slides from the backend
+  const fetchLikedSlides = async (authToken) => {
+    try {
+      const likedSlidesData = await fetchUserLikedSlides(story._id, authToken);
+      setLikedSlides(likedSlidesData); // Set the liked slides from the backend
+    } catch (error) {
+      console.error('Error fetching liked slides:', error);
+    }
+  };
+
+  // Function to fetch bookmarked slides from the backend
+  const fetchBookmarkedSlides = async (authToken) => {
+    try {
+      const bookmarkedSlidesData = await fetchUserBookmarkedSlides(story._id, authToken);
+      setBookmarkedSlides(bookmarkedSlidesData); // Set the bookmarked slides from the backend
+    } catch (error) {
+      console.error('Error fetching bookmarked slides:', error);
+    }
+  };
+
+  // Function to toggle like/unlike
+  const handleLike = async () => {
+    const authToken = localStorage.getItem('token'); // Get the auth token
+
+    if (!authToken) {
+      console.error('User is not logged in.');
+      return;
+    }
+
+    try {
+      // Call the API to like/unlike the current slide
+      const response = await toggleLikeSlide(story._id, story.slides[currentSlide].slideNumber, authToken);
+
+      // Update the liked slides state locally
+      if (likedSlides.includes(story.slides[currentSlide].slideNumber)) {
+        setLikedSlides((prevLikedSlides) => prevLikedSlides.filter(slide => slide !== story.slides[currentSlide].slideNumber));
+        story.slides[currentSlide].likeCount -= 1;
+      } else {
+        setLikedSlides((prevLikedSlides) => [...prevLikedSlides, story.slides[currentSlide].slideNumber]);
+        story.slides[currentSlide].likeCount += 1;
+      }
+    } catch (error) {
+      console.error('Error updating like status:', error);
+    }
+  };
+
+  // Function to toggle bookmark/unbookmark
+  const handleBookmark = async () => {
+    const authToken = localStorage.getItem('token'); // Get the auth token
+
+    if (!authToken) {
+      console.error('User is not logged in.');
+      return;
+    }
+
+    try {
+      // Call the API to bookmark/unbookmark the current slide
+      const response = await toggleBookmarkSlide(story._id, story.slides[currentSlide].slideNumber, authToken);
+
+      // Update the bookmarked slides state locally
+      if (bookmarkedSlides.includes(story.slides[currentSlide].slideNumber)) {
+        setBookmarkedSlides((prevBookmarkedSlides) =>
+          prevBookmarkedSlides.filter(slide => slide !== story.slides[currentSlide].slideNumber)
+        );
+      } else {
+        setBookmarkedSlides((prevBookmarkedSlides) => [
+          ...prevBookmarkedSlides,
+          story.slides[currentSlide].slideNumber,
+        ]);
+      }
+    } catch (error) {
+      console.error('Error updating bookmark status:', error);
+    }
+  };
 
   // Function to go to the next slide
   const goToNextSlide = () => {
@@ -132,7 +221,15 @@ const StoryModal = ({ story, onClose, initialSlide = 0 }) => {
 
         {/* Action Buttons */}
         <div className="story-modal-actions">
-          <img src={bookmarkIcon} alt="Bookmark" />
+          {/* Bookmark button */}
+          <img
+            src={bookmarkedSlides.includes(story.slides[currentSlide].slideNumber) ? bookmarkedIcon : bookmarkIcon} // Toggle between bookmarked and unbookmarked images
+            alt="Bookmark"
+            onClick={handleBookmark} // Call handleBookmark on click
+            style={{ cursor: 'pointer', width: '24px', height: '24px', marginRight: '8px' }} // Ensure size and clickability
+          />
+
+          {/* Download button */}
           <img
             src={downloadIcon}
             alt="Download"
@@ -140,7 +237,19 @@ const StoryModal = ({ story, onClose, initialSlide = 0 }) => {
             style={{ visibility: isLoggedIn ? 'visible' : 'hidden' }} // Toggle visibility
             onClick={downloadImage} // Call downloadImage function on click
           />
-          <img src={likeIcon} alt="Like" />
+
+          {/* Like button with conditionally rendered heart icons and like count */}
+          <div className="like-section" style={{ display: 'flex', alignItems: 'center' }}>
+            <img
+              src={likedSlides.includes(story.slides[currentSlide].slideNumber) ? likedIcon : likeIcon} // Toggle between liked and unliked images
+              alt="Like"
+              onClick={handleLike} // Call handleLike on click
+              style={{ cursor: 'pointer', width: '24px', height: '24px', marginRight: '8px' }} // Ensure size and clickability
+            />
+            <span style={{ color: 'white', fontSize: '14px' }}>
+              {story.slides[currentSlide].likeCount} {/* Display the like count */}
+            </span>
+          </div>
         </div>
 
         {/* Notification for link copied */}

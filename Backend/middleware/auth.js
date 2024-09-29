@@ -6,9 +6,9 @@ const User = require("../models/user");
 const authMiddleware = async (req, res, next) => {
   try {
     // Bypass authentication for GET requests on /api/story
-    if (req.method === "GET" && req.originalUrl.startsWith("/api/story/")) {
-      return next();  // Bypass authentication and proceed
-    }
+    // if (req.method === "GET" && req.originalUrl.startsWith("/api/story/")) {
+    //   return next();  // Bypass authentication and proceed
+    // }
 
     // console.log("Request Method:", req.method);
     // console.log("Request URL:", req.originalUrl);

@@ -196,3 +196,19 @@
   100% { opacity: 0; }
 }
 
+.like-button {
+  filter: grayscale(100%);
+}
+
+/* Default heart icon */
+.like-button {
+  width: 24px;
+  height: 24px;
+  cursor: pointer;
+  transition: all 0.3s ease; /* For smooth transition */
+}
+
+/* Change the color when liked */
+.like-button.liked {
+  filter: invert(28%) sepia(94%) saturate(6602%) hue-rotate(337deg) brightness(102%) contrast(117%);
+}
