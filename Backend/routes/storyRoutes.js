@@ -26,7 +26,7 @@ router.get("/stories/user/:username",getStoriesByUsername);
 
 router.get('/stories/:storyId/liked-slides',auth,likedslides);
 
-router.get('/stories/:storyid/bookmarked-slides',auth, fetchUserBookmarkedSlides);
+router.get('/stories/:storyId/bookmarked-slides',auth, fetchUserBookmarkedSlides);
 router.put('/stories/:storyId/slides/:slideNumber/like',auth,  likeSlide);
 router.put('/stories/:storyId/slides/:slideNumber/bookmark',auth,  toggleBookmarkSlide);
 router.put('/stories/:storyId',auth,  updateStory);

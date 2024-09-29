@@ -11,12 +11,16 @@ import bookmarkedIcon from '../../assets/bookmarked.png'; // Bookmarked icon
 import downloadIcon from '../../assets/download.png'; // Importing the download icon
 import { toggleLikeSlide, fetchUserLikedSlides, toggleBookmarkSlide, fetchUserBookmarkedSlides } from '../../services/storyServices'; // Import necessary functions
 
+// Import or define the SignInModal component
+import SignInModal from '../signIn/signIn'; // Assuming you have a SignInModal component
+
 const StoryModal = ({ story, onClose, initialSlide = 0 }) => {
   const [currentSlide, setCurrentSlide] = useState(initialSlide);
   const [isLoggedIn, setIsLoggedIn] = useState(false); // Track login status
   const [likedSlides, setLikedSlides] = useState([]); // Track which slides are liked by the user
   const [bookmarkedSlides, setBookmarkedSlides] = useState([]); // Track bookmarked slides
   const [notification, setNotification] = useState(false); // To show or hide the copied notification
+  const [showSignInModal, setShowSignInModal] = useState(false); // Control SignIn modal visibility
   const slideDuration = 10; // Slide duration in seconds
 
   const timerRef = useRef(null); // Ref to store the timer
@@ -25,7 +29,6 @@ const StoryModal = ({ story, onClose, initialSlide = 0 }) => {
   // Check for auth-token when the component mounts
   useEffect(() => {
     const authToken = localStorage.getItem('token'); // Check if auth-token exists
-    const userId = localStorage.getItem('userId'); // Get the logged-in user ID
 
     if (authToken) {
       setIsLoggedIn(true);
@@ -50,37 +53,21 @@ const StoryModal = ({ story, onClose, initialSlide = 0 }) => {
   // Function to fetch bookmarked slides from the backend
   const fetchBookmarkedSlides = async (authToken) => {
     try {
-      const bookmarkedSlidesData = await fetchUserBookmarkedSlides(story._id, authToken);
-      setBookmarkedSlides(bookmarkedSlidesData); // Set the bookmarked slides from the backend
+      const response = await fetchUserBookmarkedSlides(story._id, authToken);
+      setBookmarkedSlides(response.bookmarkedSlides || []); // Set the bookmarked slides from the backend
     } catch (error) {
       console.error('Error fetching bookmarked slides:', error);
     }
   };
 
-  // Function to toggle like/unlike
-  const handleLike = async () => {
-    const authToken = localStorage.getItem('token'); // Get the auth token
+  // Function to show the SignIn modal when the user is not logged in
+  const showSignInModalHandler = () => {
+    setShowSignInModal(true);
+  };
 
-    if (!authToken) {
-      console.error('User is not logged in.');
-      return;
-    }
-
-    try {
-      // Call the API to like/unlike the current slide
-      const response = await toggleLikeSlide(story._id, story.slides[currentSlide].slideNumber, authToken);
-
-      // Update the liked slides state locally
-      if (likedSlides.includes(story.slides[currentSlide].slideNumber)) {
-        setLikedSlides((prevLikedSlides) => prevLikedSlides.filter(slide => slide !== story.slides[currentSlide].slideNumber));
-        story.slides[currentSlide].likeCount -= 1;
-      } else {
-        setLikedSlides((prevLikedSlides) => [...prevLikedSlides, story.slides[currentSlide].slideNumber]);
-        story.slides[currentSlide].likeCount += 1;
-      }
-    } catch (error) {
-      console.error('Error updating like status:', error);
-    }
+  // Function to close the SignIn modal
+  const closeSignInModalHandler = () => {
+    setShowSignInModal(false);
   };
 
   // Function to toggle bookmark/unbookmark
@@ -88,7 +75,7 @@ const StoryModal = ({ story, onClose, initialSlide = 0 }) => {
     const authToken = localStorage.getItem('token'); // Get the auth token
 
     if (!authToken) {
-      console.error('User is not logged in.');
+      showSignInModalHandler(); // Show SignIn modal if not logged in
       return;
     }
 
@@ -109,6 +96,32 @@ const StoryModal = ({ story, onClose, initialSlide = 0 }) => {
       }
     } catch (error) {
       console.error('Error updating bookmark status:', error);
+    }
+  };
+
+  // Function to toggle like/unlike
+  const handleLike = async () => {
+    const authToken = localStorage.getItem('token'); // Get the auth token
+
+    if (!authToken) {
+      showSignInModalHandler(); // Show SignIn modal if not logged in
+      return;
+    }
+
+    try {
+      // Call the API to like/unlike the current slide
+      const response = await toggleLikeSlide(story._id, story.slides[currentSlide].slideNumber, authToken);
+
+      // Update the liked slides state locally
+      if (likedSlides.includes(story.slides[currentSlide].slideNumber)) {
+        setLikedSlides((prevLikedSlides) => prevLikedSlides.filter(slide => slide !== story.slides[currentSlide].slideNumber));
+        story.slides[currentSlide].likeCount -= 1;
+      } else {
+        setLikedSlides((prevLikedSlides) => [...prevLikedSlides, story.slides[currentSlide].slideNumber]);
+        story.slides[currentSlide].likeCount += 1;
+      }
+    } catch (error) {
+      console.error('Error updating like status:', error);
     }
   };
 
@@ -269,6 +282,11 @@ const StoryModal = ({ story, onClose, initialSlide = 0 }) => {
       <button className="story-modal-next-btn" onClick={goToNextSlide}>
         <img src={rightArrow} alt="Next" />
       </button>
+
+      {/* SignIn Modal */}
+      {showSignInModal && (
+        <SignInModal onClose={closeSignInModalHandler} /> // Assuming you have a SignInModal component
+      )}
     </div>
   );
 };

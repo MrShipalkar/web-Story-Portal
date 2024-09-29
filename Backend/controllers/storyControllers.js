@@ -224,61 +224,67 @@ const likedslides = async (req, res) => {
 };
 
 const toggleBookmarkSlide = async (req, res) => {
-  const { storyId, slideNumber } = req.params;
-  const userId = req.user._id; // Extract userId from req.user (set by authMiddleware)
-
   try {
-    const story = await Story.findOne({
-      _id: storyId,
-      "slides.slideNumber": slideNumber,
-    });
+    const { storyId, slideNumber } = req.params;
+    const userId = req.user._id;
+
+    // Find the story
+    const story = await Story.findById(storyId);
 
     if (!story) {
-      return res.status(404).json({ message: "Story or slide not found" });
+      return res.status(404).json({ message: 'Story not found' });
     }
 
-    const slide = story.slides.find(
-      (slide) => slide.slideNumber === parseInt(slideNumber)
-    );
+    // Find the slide by slideNumber
+    const slide = story.slides.find(slide => slide.slideNumber === parseInt(slideNumber));
 
-    const userIndex = slide.bookmarks.indexOf(userId);
+    if (!slide) {
+      return res.status(404).json({ message: 'Slide not found' });
+    }
 
-    if (userIndex !== -1) {
-      // If user has already bookmarked, remove bookmark
-      slide.bookmarks.splice(userIndex, 1);
-      await story.save();
-      return res.status(200).json({ message: "Slide unbookmarked successfully", story });
+    // Check if the user has already bookmarked the slide
+    const isBookmarked = slide.bookmarks.includes(userId);
+
+    if (isBookmarked) {
+      // If already bookmarked, remove the bookmark
+      slide.bookmarks = slide.bookmarks.filter(bookmark => bookmark.toString() !== userId.toString());
     } else {
-      // If user hasn't bookmarked, add bookmark
+      // If not bookmarked, add the bookmark
       slide.bookmarks.push(userId);
-      await story.save();
-      return res.status(200).json({ message: "Slide bookmarked successfully", story });
     }
+
+    // Save the story after updating bookmarks
+    await story.save();
+
+    return res.json({ message: isBookmarked ? 'Bookmark removed' : 'Bookmark added', isBookmarked: !isBookmarked });
   } catch (error) {
-    res.status(500).json({ message: "Server error", error: error.message });
+    console.error('Error toggling bookmark:', error);
+    res.status(500).json({ message: 'Server error' });
   }
 };
 
 // Controller to fetch user bookmarked slides
 const fetchUserBookmarkedSlides = async (req, res) => {
-  const { storyId } = req.params;
-  const userId = req.user._id; // Assuming authMiddleware sets req.user
-
   try {
-    // Find the user and filter bookmarked slides based on storyId
-    const user = await User.findById(userId).select('bookmarkedSlides');
-    if (!user) {
-      return res.status(404).json({ message: 'User not found' });
+    const { storyId } = req.params;
+    const userId = req.user._id; // Get user ID from the auth middleware
+
+    // Find the story by its ID
+    const story = await Story.findById(storyId);
+
+    if (!story) {
+      return res.status(404).json({ message: 'Story not found' });
     }
 
-    // Filter bookmarked slides for the specific story
-    const bookmarkedSlides = user.bookmarkedSlides
-      .filter(bookmark => bookmark.storyId.toString() === storyId)
-      .map(bookmark => bookmark.slideNumber);
+    // Filter slides that are bookmarked by the user
+    const bookmarkedSlides = story.slides
+      .filter(slide => slide.bookmarks.includes(userId))
+      .map(slide => slide.slideNumber); // Extract only the slide numbers that are bookmarked
 
-    return res.status(200).json(bookmarkedSlides); // Return bookmarked slide numbers
+    return res.json({ bookmarkedSlides });
   } catch (error) {
-    return res.status(500).json({ message: 'Server error', error: error.message });
+    console.error('Error fetching bookmarked slides:', error);
+    return res.status(500).json({ message: 'Server error' });
   }
 };
 
