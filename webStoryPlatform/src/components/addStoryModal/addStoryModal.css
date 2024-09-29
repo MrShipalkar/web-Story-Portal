@@ -217,3 +217,9 @@
     width: 115.87px;
     height: 41.3px;
 }
+.error-message {
+    color: red;
+    font-weight: bold;
+    margin-top: 105px; /* Add margin-top to move the error message down */
+    text-align: center;
+}
