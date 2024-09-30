@@ -114,24 +114,151 @@
   margin-left: auto;
   margin-right: auto;
 }
+.home-page {
+  padding: 20px;
+  font-family: 'DM Sans', sans-serif;
+  width: 100vw;
+  overflow-x: hidden; /* Hide horizontal overflow */
+}
+
+/* Category Slider */
+.category-slider {
+  display: flex;
+  flex-wrap: nowrap;
+  overflow-x: hidden; /* Hide the horizontal scrollbar */
+  padding: 10px;
+  margin-bottom: 20px;
+  scroll-behavior: auto; /* Smooth scrolling effect */
+  position: relative;
+  gap: 10px; /* Adjusted gap */
+}
+
+/* Hide scrollbar for Webkit browsers (Chrome, Safari, etc.) */
+.category-slider::-webkit-scrollbar {
+  display: none;
+}
+
+.category-item {
+  min-width: 200px; /* Slightly reduced min-width for smaller screens */
+  aspect-ratio: 235 / 235; /* Maintain aspect ratio */
+  border-radius: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  cursor: pointer;
+  overflow: hidden;
+  background-color: #00000099;
+}
+
+.category-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 20px;
+  filter: blur(0.5px) brightness(40%);
+}
+
+.category-item.active {
+  border: 5px solid #00ACD2;
+}
+
+.category-item span {
+  position: absolute;
+  font-size: 20px; /* Reduced font size for better fit */
+  color: #FFFFFF;
+  font-weight: 500;
+  text-align: center;
+}
+
+/* Adjust Story Section */
+.story-section {
+  text-align: center;
+  margin-top: 40px;
+}
+
+.story-section h2 {
+  font-size: 24px; /* Slightly reduced for smaller screens */
+  font-weight: 700;
+  color: #000000;
+  margin-bottom: 20px;
+}
+
+.no-stories {
+  color: #8E8E8E;
+  font-size: 24px;
+  font-weight: 700;
+  margin-bottom: 50px;
+  margin-top: 40px;
+}
+
+/* Grid layout for stories */
+.story-list {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(250px, 1fr)); /* Default: 4 columns */
+  grid-gap: 30px; /* Spacing between cards */
+  padding: 0 40px; /* Padding for consistent spacing */
+  margin: 0 auto;
+  max-width: 100%;
+}
+
+/* Button styling */
+.see-more-button {
+  background-color: #FF7373;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  font-size: 16px;
+  font-weight: 700;
+  border-radius: 20px;
+  margin-top: 20px;
+  cursor: pointer;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
 
 /* Responsive Design */
 @media (max-width: 1200px) {
   .story-list {
-    grid-template-columns: repeat(3, minmax(200px, 1fr)); /* 3 cards per row on smaller screens */
+    grid-template-columns: repeat(3, minmax(200px, 1fr)); /* 3 columns */
+  }
+  .category-item span {
+    font-size: 18px;
   }
 }
 
 @media (max-width: 768px) {
   .story-list {
-    grid-template-columns: repeat(2, minmax(150px, 1fr)); /* 2 cards per row on smaller screens */
-    padding: 0 20px; /* Adjust padding for smaller screens */
+    grid-template-columns: repeat(2, minmax(150px, 1fr)); /* 2 columns */
+    padding: 0 20px;
+  }
+  .category-item {
+    min-width: 150px; /* Adjust category size */
+  }
+  .category-item span {
+    font-size: 16px;
+  }
+  .your-stories-section{
+    display: none;
   }
 }
 
 @media (max-width: 480px) {
   .story-list {
-    grid-template-columns: 1fr; /* 1 card per row on very small screens */
-    padding: 0 15px; /* Adjust padding for smallest screens */
+    grid-template-columns: 1fr; /* 1 column */
+    padding: 0 15px;
+  }
+  .category-item {
+    min-width: 130px;
+    aspect-ratio:142/95;
+    border-radius: 15px;
+     /* Further reduce category size for small screens */
+  }
+  .category-item span {
+    font-size: 14px;
+  }
+  .your-stories-section{
+    display: none;
   }
 }

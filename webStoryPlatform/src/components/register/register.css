@@ -58,15 +58,13 @@ body {
 }
 
 .password-container input {
-    width: 245px;
-    height: 35px;
     padding-right: 35px; /* Add space for the eye icon */
 }
 
-.password-container .password-toggle {
+.password-toggle {
     position: absolute;
-    top: 50%;
-    right: 80px;
+    top: 60%;
+    right: 15%;
     transform: translateY(-50%);
     cursor: pointer;
     font-size: 18px;
@@ -88,7 +86,7 @@ body {
     border: none;
     border-radius: 20px;
     cursor: pointer;
-    width: 129px;
+    width: 150px;
     margin: 0 auto; /* Centers the button */
     display: block; 
     position: relative;
@@ -98,10 +96,10 @@ body {
 
 .register-modal .close-btn {
     position: absolute;
-    top: 60px;
-    right: 60px;
-    height: 35.64px;
-    width: 35.64px ;
+    top: 20px;
+    right: 20px;
+    height: 35px;
+    width: 35px;
     background: none;
     border: none;
     cursor: pointer;
@@ -119,4 +117,82 @@ body {
     height: 100%;
     background: rgba(0, 0, 0, 0.5);
     z-index: 999;
+}
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    .register-modal {
+        height: 60%;
+        width: 80%; /* Modal takes 95% of the screen on mobile */
+        padding: 10px;
+        /* gap: 15px; */
+    }
+    .register-modal label {
+        margin-bottom: 0px;
+    }
+    .username-div, .password-container {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        width: 100%;
+    }
+
+    .register-modal input {
+        width: 100%;
+        height: 40px;
+    }
+    .password-toggle {
+        top: 70%;
+        right: 10px; /* Adjust toggle for smaller screens */
+    }
+    .r.register-modal .signin-btn {
+        width: 120px;
+    }
+
+    .register-modal .signin-close-btn {
+        top: 10px;
+        right: 10px;
+    }
+
+    .error-message {
+        font-size: 13px;
+    }
+}
+
+@media (max-width: 480px) {
+    .register-modal {
+        height: 60%;
+        width: 80%; /* Modal takes 95% of the screen on mobile */
+        padding: 10px;
+        /* gap: 15px; */
+    }
+    .register-modal label {
+        margin-bottom: 0px;
+    }
+    .username-div, .password-container {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        width: 100%;
+    }
+
+    .register-modal input {
+        width: 100%;
+        height: 40px;
+    }
+    .register-password-toggle {
+        bottom: 60%;
+        right: 10px; /* Adjust toggle for smaller screens */
+    }
+    .register-modal .signin-btn {
+        width: 120px;
+    }
+
+    .register-modal .signin-close-btn {
+        top: 10px;
+        right: 10px;
+    }
+
+    .error-message {
+        font-size: 13px;
+    }
 }

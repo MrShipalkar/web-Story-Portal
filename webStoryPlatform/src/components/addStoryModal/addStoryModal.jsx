@@ -100,7 +100,9 @@ const AddStoryModal = ({ onClose }) => {
         <>
             <div className="add-story-overlay" onClick={onClose}></div>
             <div className="add-story-modal">
+            
                 <div className="add-story-header">
+                    
                     <img src={CloseSlide} onClick={onClose} alt="Close modal" />
                     <p>Add up to 6 slides</p>
                 </div>
@@ -130,6 +132,7 @@ const AddStoryModal = ({ onClose }) => {
                 </div>
 
                 <form onSubmit={handleSubmit}>
+                   
                     <div>
                         <label>Heading:</label>
                         <input

@@ -8,8 +8,10 @@ body {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: 624px;
-    height: 482px;
+    width: 100%;
+    max-width: 624px;
+    min-height: 482px;
+    height: auto;
     background-color: #ffffff;
     box-shadow: 0px 0px 30px rgba(0, 0, 0, 0.15);
     border-radius: 15px;
@@ -19,11 +21,11 @@ body {
     align-items: center;
     justify-content: center;
     padding: 20px;
-    gap: 50px;
+    gap: 50px; /* Reduced gap for better spacing */
 }
 
 .signin-modal h2 {
-    font-size: 25px;
+    font-size: 24px;
     font-weight: 700;
     line-height: 32.55px;
     text-align: center;
@@ -39,7 +41,7 @@ body {
 .signin-modal label {
     font-size: 20px;
     font-weight: 700;
-    margin-right: 15px;
+    margin-bottom: 15px;
 }
 
 .signin-modal input {
@@ -49,6 +51,7 @@ body {
     font-size: 14px;
     border: 1px solid #000000;
     border-radius: 4px;
+    margin-bottom: 20px; /* Space between input fields */
 }
 
 .signin-password-container {
@@ -57,15 +60,13 @@ body {
 }
 
 .signin-password-container input {
-    width: 245px;
-    height: 35px;
     padding-right: 35px;
 }
 
 .signin-password-toggle {
     position: absolute;
-    top: 50%;
-    right: 80px;
+    top: 40%;
+    right: 15%;
     transform: translateY(-50%);
     cursor: pointer;
     font-size: 18px;
@@ -87,19 +88,19 @@ body {
     border: none;
     border-radius: 20px;
     cursor: pointer;
-    width: 129px;
-    margin: 0 auto;
-    display: block;
+    width: 150px;
+    margin: 0 auto; /* Centers the button */
+    display: block; 
     position: relative;
     top: 40px;
 }
 
 .signin-modal .signin-close-btn {
     position: absolute;
-    top: 60px;
-    right: 60px;
-    height: 35.64px;
-    width: 35.64px;
+    top: 20px;
+    right: 20px;
+    height: 35px;
+    width: 35px;
     background: none;
     border: none;
     cursor: pointer;
@@ -118,15 +119,88 @@ body {
 }
 
 .error-message {
-    color: #FF0E0E; /* Red color for error */
+    color: #FF0E0E; 
     font-weight: 700;
-    text-align: center; /* Center the error message */
+    text-align: center; 
     font-size: 16px;
-    position: absolute; /* Position it absolutely */
-    top: 320px; /* Adjust as per the position where you want it to appear */
-    left: 50%;
-    transform: translateX(-50%); /* Center horizontally */
-    width: 100%; /* Ensure the error message spans across the modal */
-    margin: 0 auto;
+    margin-top: 10px; /* Add spacing for error message */
 }
 
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    .signin-modal {
+        height: 60%;
+        width: 80%; /* Modal takes 95% of the screen on mobile */
+        padding: 10px;
+        /* gap: 15px; */
+    }
+    .signin-modal label {
+        margin-bottom: 0px;
+    }
+    .signin-username-div, .signin-password-container {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        width: 100%;
+    }
+
+    .signin-modal input {
+        width: 100%;
+        height: 40px;
+    }
+    .signin-password-toggle {
+        bottom: 60%;
+        right: 10px; /* Adjust toggle for smaller screens */
+    }
+    .signin-modal .signin-btn {
+        width: 120px;
+    }
+
+    .signin-modal .signin-close-btn {
+        top: 10px;
+        right: 10px;
+    }
+
+    .error-message {
+        font-size: 13px;
+    }
+}
+
+@media (max-width: 480px) {
+    .signin-modal {
+        height: 60%;
+        width: 80%; /* Modal takes 95% of the screen on mobile */
+        padding: 10px;
+        /* gap: 15px; */
+    }
+    .signin-modal label {
+        margin-bottom: 0px;
+    }
+    .signin-username-div, .signin-password-container {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        width: 100%;
+    }
+
+    .signin-modal input {
+        width: 100%;
+        height: 40px;
+    }
+    .signin-password-toggle {
+        bottom: 60%;
+        right: 10px; /* Adjust toggle for smaller screens */
+    }
+    .signin-modal .signin-btn {
+        width: 120px;
+    }
+
+    .signin-modal .signin-close-btn {
+        top: 10px;
+        right: 10px;
+    }
+
+    .error-message {
+        font-size: 13px;
+    }
+}

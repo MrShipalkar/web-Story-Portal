@@ -4,6 +4,7 @@ import Header from './components/header/header.jsx';
 import HomePage from './pages/home/homePage.jsx';
 import StoryModalWrapper from './pages/StoryModalWrapper/StoryModalWrapper.jsx';
 import BookmarkedStories from './pages/BookmarkedStories/BookmarkedStories.jsx';
+import YourStories from './components/YourStories/YourStories.jsx';
 
 
 function App() {
@@ -14,6 +15,7 @@ function App() {
       <Route path="/" element={<HomePage />} />
       <Route path="/stories/:storyId/slides/:slideNumber" element={<StoryModalWrapper/>} />
       <Route path="/bookmarked-stories" element={<BookmarkedStories />} />
+      <Route path="/your-stories" element={<YourStories />} />
       </Routes>
     </Router>
   )

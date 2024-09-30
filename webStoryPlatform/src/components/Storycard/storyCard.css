@@ -1,10 +1,12 @@
+/* Common Styles for both StoryCard views */
 .story-card-wrapper {
   position: relative;
   width: 100%;
-  /* Keep the same width as the story card */
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
+  margin: 0 auto;
 }
 
 .story-card {
@@ -13,61 +15,58 @@
   overflow: hidden;
   width: 100%;
   height: auto;
-  aspect-ratio: 257 / 459;
-  /* Maintain aspect ratio */
   text-align: left;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   background-color: #f9f9f9;
   text-decoration: none;
   color: inherit;
   cursor: pointer;
-}
-
-
-
-.story-card__image {
-  position: relative;
-  height: 100%;
-  width: 100%;
+  margin: auto;
 }
 
 .story-card__image img {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  border-radius: 20px;
 }
 
-.story-card__gradient {
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  background:
-    linear-gradient(180deg, rgba(0, 0, 0, 1) 15%, rgba(0, 0, 0, 0) 55%),
-    linear-gradient(0deg, rgba(0, 0, 0, 1) 25%, rgba(0, 0, 0, 0) 55%);
-  color: white;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
-  padding: 20px;
-  box-sizing: border-box;
+/* Home View (default view on home page) */
+.home-view .story-card {
+  aspect-ratio: 257 / 459; /* Maintain aspect ratio */
 }
 
-.story-card__gradient h3 {
-  height: 26px;
+.home-view .story-card__gradient h3 {
   font-size: 25px;
-  font-weight: 700;
-  margin: 0;
 }
 
-.story-card__gradient p {
-  height: 46px;
+.home-view .story-card__gradient p {
   font-size: 15px;
-  font-weight: 700;
-  color: #FFFFFF;
-  margin: 5px 0 0;
+  margin-top: 5px;
+  margin-bottom: 50px;
+}
+
+/* Modal View (StoryCard inside the modal) */
+.modal-view .story-card {
+  width: 100vw;
+  height: 100vh;
+  aspect-ratio: 1 / 1.8; /* Full-screen in mobile view */
+  border-radius: 0;
+}
+
+/* Special Modal Image Behavior */
+.modal-image img {
+  height: 100%;
+  object-fit: cover;
+}
+
+.modal-view .story-card__gradient h3 {
+  font-size: 22px;
+  margin-bottom: 10px;
+}
+
+.modal-view .story-card__gradient p {
+  font-size: 14px;
+  margin-bottom: 50px;
 }
 
 /* Edit button styling */
@@ -85,7 +84,6 @@
   margin-top: 10px;
   min-width: 79px;
   min-height: 34px;
-  aspect-ratio: 100/40;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -95,4 +93,94 @@
   width: 24px;
   height: 24px;
   padding: 2px 3px 3px 2px;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 1200px) {
+  .story-card-wrapper {
+    width: 90%;
+  }
+  .modal-view img{
+    width: 100vw;
+    height: 90vh;
+  }
+}
+
+@media (max-width: 1024px) {
+  .home-view .story-card {
+    aspect-ratio: 398 / 586;
+    max-width: 600px;
+  }
+  .modal-view img{
+    width: 100vw;
+    height: 90vh;
+  }
+  .modal-view .story-card {
+    height: 100vh;
+  }
+
+  .story-card__gradient h3 {
+    font-size: 22px;
+  }
+
+  .story-card__gradient p {
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 768px) {
+  .home-view .story-card {
+    aspect-ratio: 398 / 586;
+    max-width: 325px;
+  }
+  .modal-view img{
+    width: 100vw;
+    height: 90vh;
+  }
+  .modal-view .story-card {
+    aspect-ratio: 1 / 1.8;
+    height: 100vh;
+    width: 100vw;
+  }
+
+  .modal-view .story-card__gradient h3 {
+    font-size: 20px;
+  }
+
+  .modal-view .story-card__gradient p {
+    font-size: 13px;
+  }
+}
+
+@media (max-width: 480px) {
+  .home-view .story-card {
+    aspect-ratio: 398 / 586;
+    min-width: 280px;
+  }
+  .modal-view img{
+    width: 100vw;
+    height: 90vh;
+  }
+  .modal-view .story-card {
+    width: 100vw;
+    height: 100vh;
+  }
+
+  .story-card__gradient h3 {
+    font-size: 18px;
+  }
+
+  .story-card__gradient p {
+    font-size: 12px;
+  }
+
+  .story-card__edit-btn {
+    bottom: 5px;
+    padding: 6px 12px;
+  }
+
+  .story-card__edit-btn img {
+    width: 18px;
+    height: 18px;
+  }
 }

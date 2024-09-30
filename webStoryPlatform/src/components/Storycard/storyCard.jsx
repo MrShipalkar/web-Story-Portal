@@ -4,7 +4,7 @@ import edit from '../../assets/edit.png';
 import EditStoryModal from '../editStoryModal/editStoryModal'; // Import the edit modal
 import StoryModal from '../storymodel/StoryModal.jsx'; // Import the view story modal
 
-const StoryCard = ({ story, showEditButton }) => {
+const StoryCard = ({ story, showEditButton, isModalView }) => {
   const hasSlides = story.slides && story.slides.length > 0;
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [isStoryModalOpen, setIsStoryModalOpen] = useState(false); // Add state for StoryModal
@@ -21,9 +21,9 @@ const StoryCard = ({ story, showEditButton }) => {
 
   return (
     <>
-      <div className="story-card-wrapper">
-        <div className="story-card" onClick={handleStoryClick}>  {/* Open StoryModal when clicked */}
-          <div className="story-card__image">
+      <div className={`story-card-wrapper ${isModalView ? 'modal-view' : 'home-view'}`}>
+        <div className="story-card" onClick={handleStoryClick}> {/* Open StoryModal when clicked */}
+          <div className={`story-card__image ${isModalView ? 'modal-image' : ''}`}>
             {hasSlides && story.slides[0].url && (
               <img src={story.slides[0].url} alt={story.slides[0].heading} />
             )}
@@ -35,7 +35,7 @@ const StoryCard = ({ story, showEditButton }) => {
         </div>
 
         {/* Render Edit button only if showEditButton is true */}
-        {showEditButton && (
+        {showEditButton && !isModalView && (
           <button className="story-card__edit-btn" onClick={handleEditClick}>
             <img src={edit} alt="edit" />Edit
           </button>

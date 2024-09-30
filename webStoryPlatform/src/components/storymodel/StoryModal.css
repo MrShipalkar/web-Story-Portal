@@ -1,4 +1,4 @@
-/* Story Modal Container */
+/* Base Styles for Story Modal Container */
 .story-modal-overlay {
   position: fixed;
   top: 0;
@@ -16,11 +16,11 @@
   position: relative;
   width: 100%;
   max-width: 400px;
-  aspect-ratio: 257 / 450; /* Maintain original aspect ratio */
+  aspect-ratio: 257 / 450;
   background-color: transparent;
   border-radius: 20px;
   overflow: hidden;
-  box-shadow: 0 0 20px rgba(196, 178, 178, 0.726); /* Add shadow from all sides */
+  box-shadow: 0 0 20px rgba(196, 178, 178, 0.726);
 }
 
 /* Progress Bar */
@@ -36,7 +36,7 @@
 }
 
 .story-progress-bar-item {
-  background-color: rgba(255, 255, 255, 0.3); /* Inactive progress bar color */
+  background-color: rgba(255, 255, 255, 0.3);
   height: 100%;
   flex: 1;
   margin: 0 2px;
@@ -48,25 +48,25 @@
   background-color: white;
   height: 100%;
   width: 0;
-  transition: width 10s linear; /* Smooth transition for progress */
+  transition: width 10s linear;
 }
 
 .story-progress-bar-item.active {
   background-color: white;
 }
 
-/* Story Card */
-.story-card__image {
-  position: relative;
-  height: 100%;
-  width: 100%;
+/* Story Card for Modal */
+.story-modal-card {
+  width: 100vw;
+  height: 100vh;
 }
 
-.story-card__image img {
-  width: 100%;
-  height: 100%;
+.story-modal-card .story-card__image img {
+  width: 100vw;
+  height: 100vh;
   object-fit: cover;
-  border-radius: 20px;
+  border-radius: 0;
+  /* Full-screen image in modal */
 }
 
 .story-card__gradient {
@@ -87,16 +87,15 @@
 }
 
 .story-card__gradient h3 {
-  font-size: 25px;
-  font-weight: 700;
-  margin: 0;
+  text-align: start;
+  font-size: 22px;
+  margin-bottom: 10px;
 }
 
 .story-card__gradient p {
-  font-size: 15px;
-  font-weight: 500;
-  margin-top: 5px;
-  margin-bottom: 50px;
+  text-align: start;
+  font-size: 14px;
+  margin-bottom: 80px;
 }
 
 /* Close Button */
@@ -108,7 +107,7 @@
   background-color: transparent;
   border: none;
   cursor: pointer;
-  z-index: 10; /* Ensure these are in front as well */
+  z-index: 10;
 }
 
 .story-modal-close-btn {
@@ -124,13 +123,13 @@
 /* Like & Bookmark Buttons */
 .story-modal-actions {
   display: flex;
-  justify-content: space-between; /* Center the buttons */
+  justify-content: space-between;
   padding: 10px;
   position: absolute;
   bottom: 10px;
   left: 50%;
   transform: translateX(-50%);
-  width: 300px; /* Keep a fixed width for the actions */
+  width: 300px;
 }
 
 .story-modal-actions img {
@@ -150,15 +149,15 @@
   background-color: transparent;
   border: none;
   cursor: pointer;
-  z-index: 11; /* Ensure the arrows are visible */
+  z-index: 11;
 }
 
 .story-modal-prev-btn {
-  left: 350px; /* Positioned outside the card */
+  left: 350px;
 }
 
 .story-modal-next-btn {
-  right: 350px; /* Positioned outside the card */
+  right: 350px;
 }
 
 .story-modal-prev-btn img,
@@ -172,6 +171,7 @@
   height: 30px;
   cursor: pointer;
 }
+
 .link-notification {
   position: absolute;
   bottom: 170px;
@@ -190,25 +190,108 @@
 }
 
 @keyframes fadeInOut {
-  0% { opacity: 0; }
-  10% { opacity: 0.9; }
-  90% { opacity: 0.9; }
-  100% { opacity: 0; }
+  0% {
+    opacity: 0;
+  }
+
+  10% {
+    opacity: 0.9;
+  }
+
+  90% {
+    opacity: 0.9;
+  }
+
+  100% {
+    opacity: 0;
+  }
 }
 
-.like-button {
-  filter: grayscale(100%);
+/* Responsive Styling for Mobile View */
+@media (max-width: 768px) {
+  .story-modal-container {
+    width: 100vw;
+    height: 100vh;
+    border-radius: 0;
+  }
+
+  .link-notification {
+    top: 50%;
+    left: 50%;
+  }
+
+  .story-modal-card .story-card__image img {
+    width: 100vw;
+    height: 100vh;
+    object-fit: cover;
+    /* Ensure the image covers the entire modal without distorting */
+  }
+
+  .story-modal-card {
+    height: 100vh;
+  }
+
+  .story-modal-progress-bar {
+    top: 35px;
+    left: 10px;
+    right: 10px;
+    height: 3px;
+  }
+
+  .story-card__gradient h3 {
+    font-size: 20px;
+    margin-bottom: 15px;
+  }
+
+  .story-card__gradient p {
+    font-size: 14px;
+    margin-bottom: 80px;
+  }
+
+  .story-modal-close-btn {
+    top: 65px;
+  }
+
+  .story-modal-share-btn {
+    top: 65px;
+  }
+
+  .story-modal-actions {
+    width: 250px;
+  }
+
+  .story-modal-prev-btn {
+    left: 10px;
+    display: none;
+  }
+
+  .story-modal-next-btn {
+    right: 10px;
+    display: none;
+  }
+
+  .link-notification {
+    bottom: 130px;
+  }
 }
 
-/* Default heart icon */
-.like-button {
-  width: 24px;
-  height: 24px;
+/* Clickable areas for previous and next slides */
+.story-modal-left {
+  position: absolute;
+  top: 13%;
+  left: 0;
+  width: 50%;
+  height: 75%;
+  z-index: 10;
   cursor: pointer;
-  transition: all 0.3s ease; /* For smooth transition */
 }
 
-/* Change the color when liked */
-.like-button.liked {
-  filter: invert(28%) sepia(94%) saturate(6602%) hue-rotate(337deg) brightness(102%) contrast(117%);
+.story-modal-right {
+  position: absolute;
+  top: 13%;
+  right: 0;
+  width: 50%;
+  height: 75%;
+  z-index: 10;
+  cursor: pointer;
 }

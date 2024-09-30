@@ -283,23 +283,25 @@ const toggleBookmarkSlide = async (req, res) => {
 // Controller to fetch user bookmarked slides
 const fetchUserBookmarkedSlides = async (req, res) => {
   try {
-    const userId = req.user._id;
-    const user = await User.findById(userId).populate('bookmarkedSlides.storyId');
+    const { storyId } = req.params;
+    const userId = req.user._id; // Get user ID from the auth middleware
 
-    if (!user || !user.bookmarkedSlides.length) {
-      return res.status(404).json({ message: 'No bookmarked slides found' });
+    // Find the story by its ID
+    const story = await Story.findById(storyId);
+
+    if (!story) {
+      return res.status(404).json({ message: 'Story not found' });
     }
 
-    const bookmarkedStories = user.bookmarkedSlides.map(bookmark => ({
-      storyId: bookmark.storyId._id,
-      slideNumber: bookmark.slideNumber,
-      storyDetails: bookmark.storyId, // Include story details
-    }));
+    // Filter slides that are bookmarked by the user
+    const bookmarkedSlides = story.slides
+      .filter(slide => slide.bookmarks.includes(userId))
+      .map(slide => slide.slideNumber); // Extract only the slide numbers that are bookmarked
 
-    res.json(bookmarkedStories);
+    return res.json({ bookmarkedSlides });
   } catch (error) {
     console.error('Error fetching bookmarked slides:', error);
-    res.status(500).json({ message: 'Server error', error });
+    return res.status(500).json({ message: 'Server error' });
   }
 };
 

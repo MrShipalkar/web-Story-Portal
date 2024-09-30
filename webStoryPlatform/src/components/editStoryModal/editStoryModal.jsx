@@ -140,6 +140,7 @@ const EditStoryModal = ({ onClose, storyData }) => {
         </div>
 
         <form onSubmit={handleSubmit}>
+        <h2 className='title'>Add story to feed</h2>
           <div>
             <label>Heading:</label>
             <input

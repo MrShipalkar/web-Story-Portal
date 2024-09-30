@@ -21,6 +21,7 @@ const SignIn = ({ onClose, onLogin }) => {
       alert(data.message); // Show success message or handle success
       onLogin(); // Notify header that the user is now logged in
       onClose(); // Close the modal
+      window.location.reload()
     } catch (error) {
       setErrorMessage(error.message); // Show error message
     }

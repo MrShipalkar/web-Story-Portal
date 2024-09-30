@@ -221,14 +221,16 @@ const StoryModal = ({ story, onClose, initialSlide = 0 }) => {
           <img src={shareIcon} alt="Share" />
         </button>
 
-        {/* StoryCard Styling */}
-        <div className="story-card">
-          <div className="story-card__image">
-            <img src={story.slides[currentSlide].url} alt={story.slides[currentSlide].heading} />
-            <div className="story-card__gradient">
-              <h3>{story.slides[currentSlide].heading}</h3>
-              <p>{story.slides[currentSlide].description}</p>
-            </div>
+        {/* Left and Right Clickable Areas */}
+        <div className="story-modal-left" onClick={goToPreviousSlide}></div>
+        <div className="story-modal-right" onClick={goToNextSlide}></div>
+
+        {/* StoryCard Styling (with a specific modal view class) */}
+        <div className={`story-card__image modal-view`}>
+          <img src={story.slides[currentSlide].url} alt={story.slides[currentSlide].heading} />
+          <div className="story-card__gradient">
+            <h3>{story.slides[currentSlide].heading}</h3>
+            <p>{story.slides[currentSlide].description}</p>
           </div>
         </div>
 
@@ -236,10 +238,10 @@ const StoryModal = ({ story, onClose, initialSlide = 0 }) => {
         <div className="story-modal-actions">
           {/* Bookmark button */}
           <img
-            src={bookmarkedSlides.includes(story.slides[currentSlide].slideNumber) ? bookmarkedIcon : bookmarkIcon} // Toggle between bookmarked and unbookmarked images
+            src={bookmarkedSlides.includes(story.slides[currentSlide].slideNumber) ? bookmarkedIcon : bookmarkIcon} 
             alt="Bookmark"
-            onClick={handleBookmark} // Call handleBookmark on click
-            style={{ cursor: 'pointer', width: '24px', height: '24px', marginRight: '8px' }} // Ensure size and clickability
+            onClick={handleBookmark} 
+            style={{ cursor: 'pointer', width: '24px', height: '24px', marginRight: '8px' }}
           />
 
           {/* Download button */}
@@ -247,20 +249,20 @@ const StoryModal = ({ story, onClose, initialSlide = 0 }) => {
             src={downloadIcon}
             alt="Download"
             className="story-modal-download-btn"
-            style={{ visibility: isLoggedIn ? 'visible' : 'hidden' }} // Toggle visibility
-            onClick={downloadImage} // Call downloadImage function on click
+            style={{ visibility: isLoggedIn ? 'visible' : 'hidden' }} 
+            onClick={downloadImage}
           />
 
           {/* Like button with conditionally rendered heart icons and like count */}
           <div className="like-section" style={{ display: 'flex', alignItems: 'center' }}>
             <img
-              src={likedSlides.includes(story.slides[currentSlide].slideNumber) ? likedIcon : likeIcon} // Toggle between liked and unliked images
+              src={likedSlides.includes(story.slides[currentSlide].slideNumber) ? likedIcon : likeIcon}
               alt="Like"
-              onClick={handleLike} // Call handleLike on click
-              style={{ cursor: 'pointer', width: '24px', height: '24px', marginRight: '8px' }} // Ensure size and clickability
+              onClick={handleLike}
+              style={{ cursor: 'pointer', width: '24px', height: '24px', marginRight: '8px' }}
             />
             <span style={{ color: 'white', fontSize: '14px' }}>
-              {story.slides[currentSlide].likeCount} {/* Display the like count */}
+              {story.slides[currentSlide].likeCount}
             </span>
           </div>
         </div>
@@ -274,18 +276,9 @@ const StoryModal = ({ story, onClose, initialSlide = 0 }) => {
 
       </div>
 
-      {/* Navigation Arrows */}
-      <button className="story-modal-prev-btn" onClick={goToPreviousSlide}>
-        <img src={leftArrow} alt="Previous" />
-      </button>
-
-      <button className="story-modal-next-btn" onClick={goToNextSlide}>
-        <img src={rightArrow} alt="Next" />
-      </button>
-
       {/* SignIn Modal */}
       {showSignInModal && (
-        <SignInModal onClose={closeSignInModalHandler} /> // Assuming you have a SignInModal component
+        <SignInModal onClose={closeSignInModalHandler} /> 
       )}
     </div>
   );

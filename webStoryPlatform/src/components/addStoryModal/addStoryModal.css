@@ -133,7 +133,7 @@
     height: 39px;
     padding: 8px;
     font-size: 14px;
-    font-family:'DM sans', sans-serif;
+    font-family: 'DM sans', sans-serif;
     border: 1px solid #000000;
     margin-bottom: 20px;
 }
@@ -217,9 +217,101 @@
     width: 115.87px;
     height: 41.3px;
 }
+.title{
+    display: none;
+    position: relative;
+}
 .error-message {
     color: red;
     font-weight: bold;
-    margin-top: 105px; /* Add margin-top to move the error message down */
+    margin-top: 105px;
+    /* Add margin-top to move the error message down */
     text-align: center;
+}
+
+@media (max-width: 480px) {
+    .add-story-modal {
+        display: flex;
+        gap: 10px;
+    }
+
+    .slide-btn-container {
+        display: flex;
+        flex-direction: column;
+
+    }
+
+    .add-story-modal {
+        width: 80%;
+        height: 70%;
+        align-items: center;
+        padding: 0px;
+
+    }
+
+    .category-dis ,.add-story-header p {
+        display: none;
+    }
+
+    .add-slide-btn, .slide-btn {
+        width: 60px;
+        height: 15%;
+        padding: 10px;
+    }
+    .add-story-modal form div {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+
+    }
+    .add-story-modal label {
+        margin-left: 0px;
+    }
+    
+    .add-story-modal input,
+    .add-story-modal textarea {
+        width: 100%;
+        height: auto;
+        margin-bottom: 15px;
+    }
+    
+    /* Category Select */
+.add-story-modal select {
+    width: 100%;
+    height: auto;
+
+}
+
+.btn-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+    gap: 10px;
+}
+
+.previous-btn ,.next-btn {
+   display: none;
+}
+
+.post-btn {
+    
+   margin: auto;
+    width: 115.87px;
+    height: 41.3px;
+}
+
+.add-story-header img {
+    left: 280px;
+    bottom: 270px;
+}
+
+.error-message {
+    margin-top: 0px;
+}
+.title{
+    position: relative;
+    display: flex;
+    right: 15%;
+    bottom: 30px;
+}
 }
