@@ -67,6 +67,7 @@ const Header = () => {
     localStorage.removeItem('token');
     setIsLoggedIn(false);
     setUsername('');
+    window.location.reload()
   };
 
   const toggleDropdown = () => setIsDropdownOpen(!isDropdownOpen);

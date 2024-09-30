@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import './AddStoryModal.css'; // Import the CSS
 import CloseSlide from '../../assets/closeSlide.png';
 import { addStory } from '../../services/storyServices'; // Import the addStory service
+import { toast } from 'react-toastify';
 
 const AddStoryModal = ({ onClose }) => {
     const [currentSlide, setCurrentSlide] = useState(1);
@@ -14,7 +15,7 @@ const AddStoryModal = ({ onClose }) => {
     const [errorMessage, setErrorMessage] = useState('');
     const maxSlides = 6;
 
-    const categories = [ "Food", "Fashion", "Sports", "Travel", "Movie", "Education", "Business"];
+    const categories = ["Food", "Fashion", "Sports", "Travel", "Movie", "Education", "Business"];
 
     const handleNext = () => {
         if (currentSlide < slides.length) {
@@ -58,13 +59,17 @@ const AddStoryModal = ({ onClose }) => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
+            // Check if category is selected
             if (!category) {
                 setErrorMessage("Please select a category");
                 return;
             }
     
-            const token = localStorage.getItem('token'); // Fetch token from local storage
-            const author = localStorage.getItem('username'); // Assuming you store user ID in local storage
+            // Fetch token and author from localStorage
+            const token = localStorage.getItem('token');
+            const author = localStorage.getItem('username');
+            
+            // Validation checks
             if (!token) {
                 setErrorMessage('No authentication token found. Please log in.');
                 return;
@@ -76,7 +81,7 @@ const AddStoryModal = ({ onClose }) => {
     
             // Prepare story data
             const storyData = {
-                author,  // Include the author (user ID)
+                author,
                 slides: slides.map((slide, index) => ({
                     slideNumber: index + 1,
                     heading: slide.heading,
@@ -86,23 +91,34 @@ const AddStoryModal = ({ onClose }) => {
                 })),
             };
     
-            const response = await addStory(storyData, token); // Pass token to the service
-            console.log('Story added successfully:', response);
-            onClose(); // Close modal after successful submission
+            // Call the service to add the story
+            const response = await addStory(storyData, token);
+    
+            // Display success toast and then close modal
+            toast.success('Story added successfully!', {
+                onClose: () => {
+                    onClose(); // Close the modal
+                    window.location.reload(); // Reload the page after closing the modal
+                },
+            });
+    
         } catch (error) {
             console.error('Error occurred while adding the story:', error);
             setErrorMessage(error.message || 'An error occurred while adding the story');
+            
+            // Show error toast if there's an issue
+            toast.error(error.message || 'An error occurred while adding the story');
         }
     };
-    
+
 
     return (
         <>
             <div className="add-story-overlay" onClick={onClose}></div>
             <div className="add-story-modal">
-            
+
                 <div className="add-story-header">
-                    
+
                     <img src={CloseSlide} onClick={onClose} alt="Close modal" />
                     <p>Add up to 6 slides</p>
                 </div>
@@ -132,7 +148,7 @@ const AddStoryModal = ({ onClose }) => {
                 </div>
 
                 <form onSubmit={handleSubmit}>
-                   
+
                     <div>
                         <label>Heading:</label>
                         <input

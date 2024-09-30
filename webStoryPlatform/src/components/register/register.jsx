@@ -3,6 +3,7 @@ import './Register.css';
 import eye from '../../assets/eye.png';
 import close from '../../assets/close.png';
 import { registerUser } from '../../services/authServices'; // Import the service
+import { toast } from 'react-toastify';
 
 const Register = ({ onClose, onLogin }) => {
   const [username, setUsername] = useState('');
@@ -18,11 +19,18 @@ const Register = ({ onClose, onLogin }) => {
     e.preventDefault();
     try {
       const data = await registerUser(username, password); // Call the service
-      alert(data.message); // Show success message or handle success
-      onLogin(); // Notify header that the user is now logged in
-      onClose(); // Close the modal
+  
+      // Show success message using toast and delay modal close until after message is shown
+      toast.success(data.message, {
+        onClose: () => {
+          onLogin(); // Notify header that the user is now logged in
+          onClose(); // Close the modal after the toast is shown
+        },
+      });
+      
     } catch (error) {
       setErrorMessage(error.message); // Set error message
+      toast.error(error.message); // Show error toast
     }
   };
 

@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import './EditStoryModal.css'; 
-import CloseSlide from '../../assets/closeSlide.png'; 
-import { editStory } from '../../services/storyServices'; 
+import './EditStoryModal.css';
+import CloseSlide from '../../assets/closeSlide.png';
+import { editStory } from '../../services/storyServices';
+import { toast } from 'react-toastify';
 
 const EditStoryModal = ({ onClose, storyData }) => {
   const [currentSlide, setCurrentSlide] = useState(1);
@@ -10,7 +11,7 @@ const EditStoryModal = ({ onClose, storyData }) => {
     { heading: '', description: '', url: '' },
     { heading: '', description: '', url: '' }
   ]);
-  const [category, setCategory] = useState(storyData ? storyData.slides[0]?.category : ''); 
+  const [category, setCategory] = useState(storyData ? storyData.slides[0]?.category : '');
   const [errorMessage, setErrorMessage] = useState('');
   const maxSlides = 6;
 
@@ -19,7 +20,7 @@ const EditStoryModal = ({ onClose, storyData }) => {
   useEffect(() => {
     if (storyData) {
       setSlides(storyData.slides);
-      setCategory(storyData.slides[0]?.category); 
+      setCategory(storyData.slides[0]?.category);
     }
   }, [storyData]);
 
@@ -64,15 +65,17 @@ const EditStoryModal = ({ onClose, storyData }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+  
     try {
       if (!category) {
         setErrorMessage("Please select a category");
         return;
       }
-
+  
       const token = localStorage.getItem('token');
       const author = localStorage.getItem('username');
+      
+      // Check for valid authentication token and username
       if (!token) {
         setErrorMessage('No authentication token found. Please log in.');
         return;
@@ -81,7 +84,8 @@ const EditStoryModal = ({ onClose, storyData }) => {
         setErrorMessage('No author found. Please log in.');
         return;
       }
-
+  
+      // Prepare the updated story data
       const updatedStoryData = {
         author,
         slides: slides.map((slide, index) => ({
@@ -92,17 +96,28 @@ const EditStoryModal = ({ onClose, storyData }) => {
           category,
         })),
       };
-
+  
       console.log('Story ID:', storyData._id);
-      console.log('Updated Data:', updatedStoryData); 
-
+      console.log('Updated Data:', updatedStoryData);
+  
+      // Call the editStory service
       const response = await editStory(storyData._id, updatedStoryData, token);
       console.log('Story edited successfully:', response);
-
-      onClose(); 
+  
+      // Display success toast and close modal
+      toast.success('Story edited successfully!', {
+        onClose: () => {
+          onClose(); // Close modal after the success toast is shown
+          window.location.reload(); // Reload page after modal is closed
+        },
+      });
+      
     } catch (error) {
       console.error('Error occurred:', error);
       setErrorMessage(error.message || 'An error occurred while editing the story');
+      
+      // Display error toast
+      toast.error(error.message || 'An error occurred while editing the story');
     }
   };
 
@@ -140,7 +155,7 @@ const EditStoryModal = ({ onClose, storyData }) => {
         </div>
 
         <form onSubmit={handleSubmit}>
-        <h2 className='title'>Add story to feed</h2>
+          <h2 className='title'>Add story to feed</h2>
           <div>
             <label>Heading:</label>
             <input
@@ -165,7 +180,7 @@ const EditStoryModal = ({ onClose, storyData }) => {
             <input
               type="text"
               name="url" // Match the field name with the backend data
-              value={slides[currentSlide - 1]?.url || ''} 
+              value={slides[currentSlide - 1]?.url || ''}
               onChange={handleSlideChange}
               placeholder="Add Image URL"
             />

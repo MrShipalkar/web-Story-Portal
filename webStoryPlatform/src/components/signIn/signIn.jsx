@@ -3,6 +3,7 @@ import './SignIn.css';
 import eye from '../../assets/eye.png';
 import close from '../../assets/close.png';
 import { loginUser } from '../../services/authServices'; // Import loginUser function
+import { toast } from 'react-toastify';
 
 const SignIn = ({ onClose, onLogin }) => {
   const [username, setUsername] = useState('');
@@ -18,15 +19,20 @@ const SignIn = ({ onClose, onLogin }) => {
     e.preventDefault();
     try {
       const data = await loginUser(username, password); 
-      alert(data.message); // Show success message or handle success
-      onLogin(); // Notify header that the user is now logged in
-      onClose(); // Close the modal
-      window.location.reload()
+  
+      // Show success message using toast
+      toast.success(data.message, {
+        onClose: () => {
+          onLogin(); // Notify header that the user is now logged in
+          onClose(); // Close the modal after the toast is shown
+          window.location.reload(); // Reload the page
+        },
+      });
     } catch (error) {
       setErrorMessage(error.message); // Show error message
+      toast.error(error.message); // Display error message using toast
     }
   };
-
   return (
     <>
       <div className="signin-overlay" onClick={onClose}></div>

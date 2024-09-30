@@ -5,12 +5,25 @@ import HomePage from './pages/home/homePage.jsx';
 import StoryModalWrapper from './pages/StoryModalWrapper/StoryModalWrapper.jsx';
 import BookmarkedStories from './pages/BookmarkedStories/BookmarkedStories.jsx';
 import YourStories from './components/YourStories/YourStories.jsx';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 
 function App() {
   return (
     <Router>
       <Header />
+      <ToastContainer 
+        position="top-right"
+        autoClose={3000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      />
       <Routes>
       <Route path="/" element={<HomePage />} />
       <Route path="/stories/:storyId/slides/:slideNumber" element={<StoryModalWrapper/>} />
