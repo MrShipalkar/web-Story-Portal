@@ -11,7 +11,7 @@ connectDB()
 
 
 app.use(express.json());
-app.use(cors())  // Enable cross-origin resource sharing (CORS) for all requests
+app.use(cors())  
 app.use('/api/auth',authRoutes);
 app.use('/api/story', storyRoutes)
 

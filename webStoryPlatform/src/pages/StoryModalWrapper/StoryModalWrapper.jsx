@@ -1,20 +1,20 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import StoryModal from '../../components/storymodel/StoryModal.jsx'; // The modal component
-import axios from 'axios';
+import StoryModal from '../../components/storymodel/StoryModal.jsx'; 
+import { fetchStoryById } from '../../services/storyServices'; 
 
-const StoryModalWrapper = ({ history }) => {
-  const { storyId, slideNumber } = useParams(); // Extract storyId and slideNumber from URL
+const StoryModalWrapper = () => {
+  const { storyId, slideNumber } = useParams(); 
   const [story, setStory] = useState(null);
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
 
   useEffect(() => {
-    // Fetch the story by ID when the component mounts
-    const fetchStory = async () => {
+  
+    const loadStory = async () => {
       try {
-        const response = await axios.get(`http://localhost:5000/api/story/stories/${storyId}`);
-        setStory(response.data);
+        const storyData = await fetchStoryById(storyId); 
+        setStory(storyData);
         setLoading(false);
       } catch (error) {
         console.error('Error fetching story:', error);
@@ -23,12 +23,12 @@ const StoryModalWrapper = ({ history }) => {
       }
     };
 
-    fetchStory();
-  }, [storyId]);
+    loadStory();
+  }, [storyId, navigate]);
 
-  // Handle closing the modal and redirecting back
+  
   const closeModal = () => {
-    history.push('/'); // Redirect back to the main page when modal is closed
+    navigate('/'); 
   };
 
   if (loading) return <div>Loading...</div>;
@@ -38,8 +38,8 @@ const StoryModalWrapper = ({ history }) => {
       {story && (
         <StoryModal
           story={story}
-          initialSlide={parseInt(slideNumber, 10) - 1} // Set the initial slide based on URL
-          onClose={() => navigate('/')}
+          initialSlide={parseInt(slideNumber, 10) - 1} 
+          onClose={closeModal}
         />
       )}
     </>

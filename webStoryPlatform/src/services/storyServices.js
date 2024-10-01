@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 
-const API_URL = 'http://localhost:5000/api/story'; // Replace with your backend URL
+const API_URL = 'http://localhost:5000/api/story'; 
 
 // Fetch stories by category
 export const fetchStoriesByCategory = async (category) => {
@@ -21,7 +21,7 @@ export const addStory = async (storyData, token) => {
   try {
     const response = await axios.post(`${API_URL}/stories`, storyData, {
       headers: {
-        Authorization: `Bearer ${token}`, // Attach token in Authorization header
+        Authorization: `Bearer ${token}`, 
       },
     });
     return response.data;
@@ -31,10 +31,10 @@ export const addStory = async (storyData, token) => {
   }
 };
 
-// Fetch user-specific stories
+
 export const fetchUserStories = async (username) => {
   try {
-    // Make a GET request, using the username in the URL path
+   
     const response = await axios.get(`${API_URL}/stories/user/${username}`);
     return response.data;
   } catch (error) {
@@ -46,7 +46,7 @@ export const fetchUserStories = async (username) => {
 
 export const editStory = async (storyId, updatedStoryData, token) => {
   const response = await axios.put(
-    `${API_URL}/stories/${storyId}`,  // Ensure the correct API route is used
+    `${API_URL}/stories/${storyId}`, 
     updatedStoryData,
     {
       headers: {
@@ -66,7 +66,7 @@ export const toggleLikeSlide = async (storyId, slideNumber, token) => {
       {}, // Empty body
       {
         headers: {
-          Authorization: `Bearer ${token}`, // Attach token in Authorization header
+          Authorization: `Bearer ${token}`, 
         },
       }
     );
@@ -81,10 +81,10 @@ export const fetchUserLikedSlides = async (storyId, token) => {
   try {
     const response = await axios.get(`${API_URL}/stories/${storyId}/liked-slides`, {
       headers: {
-        Authorization: `Bearer ${token}`, // Send the token for authentication
+        Authorization: `Bearer ${token}`, 
       },
     });
-    return response.data; // Return the liked slides array
+    return response.data; 
   } catch (error) {
     console.error('Error fetching liked slides:', error);
     throw error.response?.data?.message || 'Error occurred while fetching liked slides';
@@ -98,7 +98,7 @@ export const toggleBookmarkSlide = async (storyId, slideNumber, token) => {
       {},
       {
         headers: {
-          Authorization: `Bearer ${token}`, // Attach token in Authorization header
+          Authorization: `Bearer ${token}`, 
         },
       }
     );
@@ -115,13 +115,38 @@ export const fetchUserBookmarkedSlides = async (storyId, token) => {
       `${API_URL}/stories/${storyId}/bookmarked-slides`,
       {
         headers: {
-          Authorization: `Bearer ${token}`, // Attach token in Authorization header
+          Authorization: `Bearer ${token}`, 
         },
       }
     );
-    return response.data; // Return the list of bookmarked slide numbers
+    return response.data; 
   } catch (error) {
     console.error('Error fetching bookmarked slides:', error);
     throw error.response?.data?.message || 'Error occurred while fetching bookmarked slides';
+  }
+};
+
+//for bookmarks seperate page
+export const fetchBookmarkedStories = async (token) => {
+  try {
+    const response = await axios.get(`${API_URL}/bookmarked-stories`, {
+      headers: {
+        Authorization: `Bearer ${token}`, 
+      },
+    });
+    return response.data;
+  } catch (error) {
+    throw new Error('Failed to load bookmarked stories');
+  }
+};
+
+// Fetch shared Story
+export const fetchStoryById = async (storyId) => {
+  try {
+    const response = await axios.get(`${API_URL}/stories/${storyId}`);
+    return response.data;
+  } catch (error) {
+    console.error(`Error fetching story with ID "${storyId}":`, error);
+    throw error.response?.data?.message || 'Error occurred while fetching the story';
   }
 };

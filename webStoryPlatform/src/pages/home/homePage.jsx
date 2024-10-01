@@ -1,13 +1,13 @@
 import React, { useState, useEffect, useRef } from 'react';
 import StoryList from '../../components/Storylist/storylist.jsx';
-import { fetchStoriesByCategory, fetchUserStories } from '../../services/storyServices.js'; // Import fetchUserStories
-import './HomePage.css'; // Style the homepage
+import { fetchStoriesByCategory, fetchUserStories } from '../../services/storyServices.js'; 
+import './HomePage.css'; 
 
-const categories = ["All", "Food", "Fashion", "Sports", "Travel", "Movie", "Education", "Business"]; // Define categories
+const categories = ["All", "Food", "Fashion", "Sports", "Travel", "Movie", "Education", "Business"]; 
 
 const HomePage = () => {
-  const [storiesByCategory, setStoriesByCategory] = useState({}); // State to track stories for each category
-  const [userStories, setUserStories] = useState([]); // State to track user's stories
+  const [storiesByCategory, setStoriesByCategory] = useState({}); 
+  const [userStories, setUserStories] = useState([]); // State to track us
   const [visibleStories, setVisibleStories] = useState({}); // Track how many stories are visible for each category and user stories
   const [sortedCategories, setSortedCategories] = useState([]); // State to store sorted categories
   const [selectedCategory, setSelectedCategory] = useState('All'); // State to track the active category

@@ -8,12 +8,12 @@ const YourStories = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   
   useEffect(() => {
-    const username = localStorage.getItem('username'); // Fetch username from localStorage
+    const username = localStorage.getItem('username'); 
     if (username) {
-      setIsLoggedIn(true); // Mark the user as logged in
+      setIsLoggedIn(true); 
       const fetchUserStoriesData = async () => {
         try {
-          const stories = await fetchUserStories(username); // Fetch user stories
+          const stories = await fetchUserStories(username); 
           setUserStories(stories);
         } catch (error) {
           console.error('Error fetching user stories:', error);

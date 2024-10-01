@@ -27,7 +27,7 @@ const authMiddleware = async (req, res, next) => {
       return res.status(401).json({ message: "No token provided" });
     }
 
-    // Verify the token and extract the payload
+    
     let verified;
     try {
       verified = jwt.verify(token, process.env.JWT_SECRET);
@@ -39,21 +39,21 @@ const authMiddleware = async (req, res, next) => {
     // Log the payload to verify if the id or _id is present
     // console.log("Token payload:", verified);
 
-    const userId = verified._id || verified.id; // Use either _id or id
+    const userId = verified._id || verified.id; 
 
     if (!userId) {
       console.log("Token missing user ID");
       return res.status(401).json({ message: "Token missing user ID" });
     }
 
-    // Find the user by ID
+   
     const user = await User.findById(userId);
     if (!user) {
       console.log("User not found with ID:", userId);
       return res.status(401).json({ message: "User not found" });
     }
 
-    // Attach the user to the request object for further use in route handlers
+    
     req.user = user;
     next();
   } catch (err) {

@@ -1,5 +1,5 @@
 import React from 'react';
-import StoryCard from '../StoryCard/StoryCard.jsx';
+import StoryCard from '../Storycard/storyCard';
 import './Storylist.css'; 
 
 const StoryList = ({ stories, showEditButton }) => {

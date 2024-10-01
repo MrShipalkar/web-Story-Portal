@@ -17,11 +17,11 @@ const storySchema = new mongoose.Schema({
         required: true,
       },
       description: {
-        type: String, // Optional description for each slide
+        type: String, 
       },
       url: {
         type: String,
-        required: true, // URL for the slide content, could be an image or video
+        required: true, 
       },
       category: {
         type: String,
@@ -37,23 +37,23 @@ const storySchema = new mongoose.Schema({
       ],
       likeCount: {
         type: Number,
-        default: 0, // Counter for likes, no array of user IDs needed
+        default: 0, 
       },
       bookmarks: [
         {
           type: mongoose.Schema.Types.ObjectId,
-          ref: "User", // Array of user IDs who have bookmarked this slide
+          ref: "User", 
         },
       ],
     },
   ],
   createdAt: {
     type: Date,
-    default: Date.now, // Automatically set the date when the story is created
+    default: Date.now, 
   },
   updatedAt: {
     type: Date,
-    default: Date.now, // Automatically update the date when the story is modified
+    default: Date.now, 
   },
 });
 

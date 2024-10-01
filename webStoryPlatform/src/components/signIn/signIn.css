@@ -1,4 +1,4 @@
-/* Apply DM Sans font to the entire body */
+
 body {
     font-family: 'DM Sans', sans-serif;
 }
@@ -21,7 +21,7 @@ body {
     align-items: center;
     justify-content: center;
     padding: 20px;
-    gap: 50px; /* Reduced gap for better spacing */
+    gap: 50px; 
 }
 
 .signin-modal h2 {
@@ -51,7 +51,7 @@ body {
     font-size: 14px;
     border: 1px solid #000000;
     border-radius: 4px;
-    margin-bottom: 20px; /* Space between input fields */
+    margin-bottom: 20px; 
 }
 
 .signin-password-container {
@@ -89,7 +89,7 @@ body {
     border-radius: 20px;
     cursor: pointer;
     width: 150px;
-    margin: 0 auto; /* Centers the button */
+    margin: 0 auto; 
     display: block; 
     position: relative;
     top: 40px;
@@ -119,18 +119,25 @@ body {
 }
 
 .error-message {
+    position: absolute;
+    left: 50%;          
+    bottom: 28%;        
+    transform: translateX(-50%);  
     color: #FF0E0E; 
     font-weight: 700;
     text-align: center; 
     font-size: 16px;
-    margin-top: 10px; /* Add spacing for error message */
+    width: 100%;       
+    display: flex;
+    justify-content: center;  
 }
+
 
 /* Responsive Adjustments */
 @media (max-width: 768px) {
     .signin-modal {
         height: 60%;
-        width: 80%; /* Modal takes 95% of the screen on mobile */
+        width: 80%;
         padding: 10px;
         /* gap: 15px; */
     }
@@ -150,7 +157,7 @@ body {
     }
     .signin-password-toggle {
         bottom: 60%;
-        right: 10px; /* Adjust toggle for smaller screens */
+        right: 10px; 
     }
     .signin-modal .signin-btn {
         width: 120px;
@@ -169,7 +176,7 @@ body {
 @media (max-width: 480px) {
     .signin-modal {
         height: 60%;
-        width: 80%; /* Modal takes 95% of the screen on mobile */
+        width: 80%; 
         padding: 10px;
         /* gap: 15px; */
     }
@@ -189,7 +196,7 @@ body {
     }
     .signin-password-toggle {
         bottom: 60%;
-        right: 10px; /* Adjust toggle for smaller screens */
+        right: 10px; 
     }
     .signin-modal .signin-btn {
         width: 120px;

@@ -1,4 +1,4 @@
-/* Base Styles */
+
 * {
   margin: 0;
   padding: 0;
@@ -49,9 +49,10 @@ body, html {
 .header-signin-button {
   background-color: #73ABFF; 
   color: white;
+  margin-right: 20px;
 }
 
-/* Bookmark Button */
+
 .bookmark-btn {
   background-color: #FF7373;
   color: white;
@@ -123,21 +124,21 @@ body, html {
   color: #000000;
 }
 
-/* Align Bookmark and Add Story Buttons */
+
 .bookmark-story-wrapper {
   display: flex;
   gap: 25px;
   align-items: center;
 }
 
-/* Space out buttons and user profile */
+
 .user-actions-wrapper {
   display: flex;
   gap: 25px;
   align-items: center;
 }
 
-/* Dropdown */
+
 .dropdown {
   position: absolute;
   width: 251px;
@@ -177,7 +178,7 @@ body, html {
   cursor: pointer;
 }
 
-/* Close Button for Dropdown */
+
 .close-dropdown-btn {
   position: absolute;
   top: 20px;
@@ -210,7 +211,7 @@ body, html {
 }
 
 
-/* Responsive Behavior */
+
 @media (max-width: 768px) {
   .header {
     justify-content: end;
@@ -220,17 +221,17 @@ body, html {
    
     margin-right: 0px;
   }
-  /* Hide elements for mobile view */
+  
   .bookmark-story-wrapper, .nav-links, .profile-section {
     display: none;
   }
 
-  /* Show the hamburger menu */
+  
   .hamburger-menu {
     display: block;
   }
 
-  /* Full-screen dropdown for smaller screens */
+ 
   .dropdown {
     width: 100vw;
     height: 50vh;
@@ -247,7 +248,7 @@ body, html {
   left: 20%;
   top: 6%;
 }
-  /* Profile and username on top in mobile view */
+
   .dropdown .username {
     display: flex;
     align-items: center;
@@ -255,7 +256,7 @@ body, html {
     margin-bottom: 20px;
   }
 
-  /* Display buttons vertically on small screens */
+
   .dropdown .header-addstory-button,
   .dropdown .bookmark-btn,
   .dropdown .logout-btn {
@@ -263,7 +264,7 @@ body, html {
     margin-bottom: 10px;
   }
 
-  /* Remove shadow and margin for buttons */
+  
   .dropdown button {
     box-shadow: none;
   }

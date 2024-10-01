@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import './AddStoryModal.css'; // Import the CSS
+import './AddStoryModal.css';
 import CloseSlide from '../../assets/closeSlide.png';
-import { addStory } from '../../services/storyServices'; // Import the addStory service
+import { addStory } from '../../services/storyServices';
 import { toast } from 'react-toastify';
 
 const AddStoryModal = ({ onClose }) => {
@@ -59,17 +59,14 @@ const AddStoryModal = ({ onClose }) => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            // Check if category is selected
             if (!category) {
                 setErrorMessage("Please select a category");
                 return;
             }
-    
-            // Fetch token and author from localStorage
+
             const token = localStorage.getItem('token');
             const author = localStorage.getItem('username');
-            
-            // Validation checks
+
             if (!token) {
                 setErrorMessage('No authentication token found. Please log in.');
                 return;
@@ -78,8 +75,7 @@ const AddStoryModal = ({ onClose }) => {
                 setErrorMessage('No author found. Please log in.');
                 return;
             }
-    
-            // Prepare story data
+
             const storyData = {
                 author,
                 slides: slides.map((slide, index) => ({
@@ -90,35 +86,28 @@ const AddStoryModal = ({ onClose }) => {
                     category,
                 })),
             };
-    
-            // Call the service to add the story
+
             const response = await addStory(storyData, token);
-    
-            // Display success toast and then close modal
+
             toast.success('Story added successfully!', {
                 onClose: () => {
-                    onClose(); // Close the modal
-                    window.location.reload(); // Reload the page after closing the modal
+                    onClose();
+                    window.location.reload();
                 },
             });
-    
+
         } catch (error) {
             console.error('Error occurred while adding the story:', error);
             setErrorMessage(error.message || 'An error occurred while adding the story');
-            
-            // Show error toast if there's an issue
             toast.error(error.message || 'An error occurred while adding the story');
         }
     };
-
 
     return (
         <>
             <div className="add-story-overlay" onClick={onClose}></div>
             <div className="add-story-modal">
-
                 <div className="add-story-header">
-
                     <img src={CloseSlide} onClick={onClose} alt="Close modal" />
                     <p>Add up to 6 slides</p>
                 </div>
@@ -148,7 +137,6 @@ const AddStoryModal = ({ onClose }) => {
                 </div>
 
                 <form onSubmit={handleSubmit}>
-
                     <div>
                         <label>Heading:</label>
                         <input

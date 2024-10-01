@@ -19,18 +19,17 @@ const {
 
 
 // Story routes
-router.post('/stories',auth, createStory);
-router.get('/stories',getAllStories);
-router.get('/stories/:storyId', getStory);
-router.get('/stories/category/:category', filterStoriesByCategory);
-router.get("/stories/user/:username",getStoriesByUsername);
-
-router.get('/stories/:storyId/liked-slides',auth,likedslides);
-router.get('/bookmarked-stories', auth, getBookmarkedStories);
-router.get('/stories/:storyId/bookmarked-slides',auth, fetchUserBookmarkedSlides);
-router.put('/stories/:storyId/slides/:slideNumber/like',auth,  likeSlide);
-router.put('/stories/:storyId/slides/:slideNumber/bookmark',auth,  toggleBookmarkSlide);
-router.put('/stories/:storyId',auth,  updateStory);
-router.delete('/stories/:storyId',auth,  deleteStory);
+router.post('/stories',auth, createStory); //used
+router.get('/stories/:storyId', getStory); //used
+router.get('/stories/category/:category', filterStoriesByCategory); //used
+router.get("/stories/user/:username",getStoriesByUsername); // used
+router.get('/stories/:storyId/liked-slides',auth,likedslides); //used
+router.get('/bookmarked-stories', auth, getBookmarkedStories); // used
+router.get('/stories/:storyId/bookmarked-slides',auth, fetchUserBookmarkedSlides); // used
+router.put('/stories/:storyId/slides/:slideNumber/like',auth,  likeSlide); //used
+router.put('/stories/:storyId/slides/:slideNumber/bookmark',auth,  toggleBookmarkSlide); // used
+router.put('/stories/:storyId',auth,  updateStory); // used
+// router.delete('/stories/:storyId',auth,  deleteStory);
+// router.get('/stories',getAllStories);
 
 module.exports = router;

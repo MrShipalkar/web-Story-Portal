@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import './Register.css';
 import eye from '../../assets/eye.png';
 import close from '../../assets/close.png';
-import { registerUser } from '../../services/authServices'; // Import the service
+import { registerUser } from '../../services/authServices'; 
 import { toast } from 'react-toastify';
 
 const Register = ({ onClose, onLogin }) => {
@@ -17,22 +17,39 @@ const Register = ({ onClose, onLogin }) => {
 
   const handleRegister = async (e) => {
     e.preventDefault();
-    try {
-      const data = await registerUser(username, password); // Call the service
   
-      // Show success message using toast and delay modal close until after message is shown
+    
+    setErrorMessage('');
+  
+    
+    if (!username) {
+      setErrorMessage('Please enter a username.');
+      return;
+    }
+  
+    if (!password) {
+      setErrorMessage('Please enter a password.');
+      return;
+    }
+  
+    try {
+      const data = await registerUser(username, password);
+  
       toast.success(data.message, {
         onClose: () => {
-          onLogin(); // Notify header that the user is now logged in
-          onClose(); // Close the modal after the toast is shown
+          onLogin(); 
+          onClose(); 
         },
       });
       
     } catch (error) {
-      setErrorMessage(error.message); // Set error message
-      toast.error(error.message); // Show error toast
+      const errorMsg = error.response?.data?.message || error.message || 'An error occurred';
+      setErrorMessage(errorMsg);
+      toast.error(errorMsg);
     }
   };
+  
+  
 
   return (
     <>
@@ -50,7 +67,7 @@ const Register = ({ onClose, onLogin }) => {
               id="username"
               placeholder="Enter username"
               value={username}
-              onChange={(e) => setUsername(e.target.value)} // Update username state
+              onChange={(e) => setUsername(e.target.value)} 
             />
           </div>
 
@@ -61,7 +78,7 @@ const Register = ({ onClose, onLogin }) => {
               id="password"
               placeholder="Enter password"
               value={password}
-              onChange={(e) => setPassword(e.target.value)} // Update password state
+              onChange={(e) => setPassword(e.target.value)} 
             />
             <span className="password-toggle" onClick={togglePasswordVisibility}>
               <img
@@ -72,7 +89,7 @@ const Register = ({ onClose, onLogin }) => {
             </span>
           </div>
 
-          {errorMessage && <p className="error-message">{errorMessage}</p>} {/* Show error if exists */}
+          {errorMessage && <p className="error-message">{errorMessage}</p>} 
 
           <button type="submit" className="register-btn">
             Register

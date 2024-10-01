@@ -1,4 +1,4 @@
-/* Base Styles for Story Modal Container */
+
 .story-modal-overlay {
   position: fixed;
   top: 0;
@@ -55,7 +55,7 @@
   background-color: white;
 }
 
-/* Story Card for Modal */
+
 .story-modal-card {
   width: 100vw;
   height: 100vh;
@@ -66,7 +66,7 @@
   height: 100vh;
   object-fit: cover;
   border-radius: 0;
-  /* Full-screen image in modal */
+  
 }
 
 .story-card__gradient {
@@ -98,7 +98,7 @@
   margin-bottom: 80px;
 }
 
-/* Close Button */
+
 .story-modal-close-btn,
 .story-modal-share-btn {
   position: absolute;
@@ -120,7 +120,7 @@
   top: 35px;
 }
 
-/* Like & Bookmark Buttons */
+
 .story-modal-actions {
   display: flex;
   justify-content: space-between;
@@ -138,7 +138,7 @@
   cursor: pointer;
 }
 
-/* Navigation Arrows */
+
 .story-modal-prev-btn,
 .story-modal-next-btn {
   position: absolute;
@@ -207,7 +207,7 @@
   }
 }
 
-/* Responsive Styling for Mobile View */
+
 @media (max-width: 768px) {
   .story-modal-container {
     width: 100vw;
@@ -224,7 +224,7 @@
     width: 100vw;
     height: 100vh;
     object-fit: cover;
-    /* Ensure the image covers the entire modal without distorting */
+   
   }
 
   .story-modal-card {
@@ -275,7 +275,7 @@
   }
 }
 
-/* Clickable areas for previous and next slides */
+
 .story-modal-left {
   position: absolute;
   top: 13%;

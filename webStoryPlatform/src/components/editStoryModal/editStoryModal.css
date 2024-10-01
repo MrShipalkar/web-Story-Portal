@@ -9,7 +9,7 @@
     z-index: 999;
 }
 
-/* Edit Story Modal */
+
 .edit-story-modal {
     position: fixed;
     top: 50%;
@@ -23,7 +23,7 @@
     z-index: 1000;
 }
 
-/* Header of the modal */
+
 .edit-story-header img {
     width: 24px;
     height: 24px;
@@ -42,7 +42,7 @@
     text-align: right;
 }
 
-/* Slide buttons */
+
 .edit-slide-btn-container {
     display: flex;
     gap: 10px;
@@ -98,7 +98,7 @@
     align-items: center;
 }
 
-/* Input fields */
+
 .edit-story-modal label {
     color: #000000;
     width: 150px;
@@ -126,7 +126,7 @@
 
 
 
-/* Category Select */
+
 .edit-story-modal select {
     width: 280px;
     height: 39px;
@@ -139,7 +139,7 @@
     display: flex;
 }
 
-/* Previous, Next, and Update Buttons */
+
 .btn-container {
     display: flex;
     justify-content: space-between;

@@ -75,7 +75,7 @@ const EditStoryModal = ({ onClose, storyData }) => {
       const token = localStorage.getItem('token');
       const author = localStorage.getItem('username');
       
-      // Check for valid authentication token and username
+      
       if (!token) {
         setErrorMessage('No authentication token found. Please log in.');
         return;
@@ -85,14 +85,14 @@ const EditStoryModal = ({ onClose, storyData }) => {
         return;
       }
   
-      // Prepare the updated story data
+      
       const updatedStoryData = {
         author,
         slides: slides.map((slide, index) => ({
           slideNumber: index + 1,
           heading: slide.heading,
           description: slide.description,
-          url: slide.url, // Ensure "url" is used for image URLs
+          url: slide.url, 
           category,
         })),
       };
@@ -100,15 +100,15 @@ const EditStoryModal = ({ onClose, storyData }) => {
       console.log('Story ID:', storyData._id);
       console.log('Updated Data:', updatedStoryData);
   
-      // Call the editStory service
+      
       const response = await editStory(storyData._id, updatedStoryData, token);
       console.log('Story edited successfully:', response);
   
-      // Display success toast and close modal
+      
       toast.success('Story edited successfully!', {
         onClose: () => {
-          onClose(); // Close modal after the success toast is shown
-          window.location.reload(); // Reload page after modal is closed
+          onClose(); 
+          window.location.reload(); 
         },
       });
       
@@ -116,7 +116,7 @@ const EditStoryModal = ({ onClose, storyData }) => {
       console.error('Error occurred:', error);
       setErrorMessage(error.message || 'An error occurred while editing the story');
       
-      // Display error toast
+      
       toast.error(error.message || 'An error occurred while editing the story');
     }
   };
@@ -179,7 +179,7 @@ const EditStoryModal = ({ onClose, storyData }) => {
             <label>Image URL:</label>
             <input
               type="text"
-              name="url" // Match the field name with the backend data
+              name="url" 
               value={slides[currentSlide - 1]?.url || ''}
               onChange={handleSlideChange}
               placeholder="Add Image URL"

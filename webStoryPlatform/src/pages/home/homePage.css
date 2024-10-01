@@ -2,31 +2,30 @@
   padding: 20px;
   font-family: 'DM Sans', sans-serif;
   width: 100vw;
-  overflow-x: hidden; /* Hide horizontal overflow */
+  overflow-x: hidden; 
 }
 
-/* Category Slider */
-/* Category Slider */
+
 .category-slider {
   display: flex;
   flex-wrap: nowrap;
-  overflow-x: hidden; /* Hide the horizontal scrollbar */
+  overflow-x: hidden; 
   padding: 10px;
   margin-bottom: 20px;
-  scroll-behavior: auto; /* Smooth scrolling effect */
+  scroll-behavior: auto; 
   position: relative;
   gap: 20px;
 }
 
-/* Hide scrollbar for Webkit browsers (Chrome, Safari, etc.) */
+
 .category-slider::-webkit-scrollbar {
   display: none;
 }
 
 .category-item {
   width: 100%;
-  min-width: 250px; /* Set a minimum width to ensure items are evenly spaced */
-  aspect-ratio: 235 / 235; /* Maintain aspect ratio */
+  min-width: 250px; 
+  aspect-ratio: 235 / 235; 
   border-radius: 36px;
   display: flex;
   align-items: center;
@@ -80,26 +79,26 @@
 
 }
 
-/* Grid layout for stories */
+
 .story-list {
   display: grid;
-  grid-template-columns: repeat(4, minmax(250px, 1fr)); /* 4 columns, responsive size */
-  grid-gap: 50px; /* Spacing between cards */
-  padding: 0 40px; /* Padding for consistent spacing on left and right */
-  margin: 0 auto; /* Center the grid */
-  max-width: 100%; /* Max width to control spacing on larger screens */
+  grid-template-columns: repeat(4, minmax(250px, 1fr)); 
+  grid-gap: 50px; 
+  padding: 0 40px; 
+  margin: 0 auto; 
+  max-width: 100%; 
 }
 
 .story-card {
   width: 100%;
   height: auto;
-  aspect-ratio: 257 / 450; /* Fixed aspect ratio for width/height */
+  aspect-ratio: 257 / 450; 
   border-radius: 20px;
   background-color: #fff;
   overflow: hidden;
 }
 
-/* Button styling */
+
 .see-more-button {
   background-color: #FF7373;
   color: white;
@@ -118,29 +117,29 @@
   padding: 20px;
   font-family: 'DM Sans', sans-serif;
   width: 100vw;
-  overflow-x: hidden; /* Hide horizontal overflow */
+  overflow-x: hidden; 
 }
 
-/* Category Slider */
+
 .category-slider {
   display: flex;
   flex-wrap: nowrap;
-  overflow-x: hidden; /* Hide the horizontal scrollbar */
+  overflow-x: hidden; 
   padding: 10px;
   margin-bottom: 20px;
-  scroll-behavior: auto; /* Smooth scrolling effect */
+  scroll-behavior: auto; 
   position: relative;
-  gap: 10px; /* Adjusted gap */
+  gap: 10px; 
 }
 
-/* Hide scrollbar for Webkit browsers (Chrome, Safari, etc.) */
+
 .category-slider::-webkit-scrollbar {
   display: none;
 }
 
 .category-item {
-  min-width: 200px; /* Slightly reduced min-width for smaller screens */
-  aspect-ratio: 235 / 235; /* Maintain aspect ratio */
+  min-width: 200px; 
+  aspect-ratio: 235 / 235; 
   border-radius: 36px;
   display: flex;
   align-items: center;
@@ -165,20 +164,20 @@
 
 .category-item span {
   position: absolute;
-  font-size: 20px; /* Reduced font size for better fit */
+  font-size: 20px;
   color: #FFFFFF;
   font-weight: 500;
   text-align: center;
 }
 
-/* Adjust Story Section */
+
 .story-section {
   text-align: center;
   margin-top: 40px;
 }
 
 .story-section h2 {
-  font-size: 24px; /* Slightly reduced for smaller screens */
+  font-size: 24px; 
   font-weight: 700;
   color: #000000;
   margin-bottom: 20px;
@@ -192,17 +191,17 @@
   margin-top: 40px;
 }
 
-/* Grid layout for stories */
+
 .story-list {
   display: grid;
-  grid-template-columns: repeat(4, minmax(250px, 1fr)); /* Default: 4 columns */
-  grid-gap: 30px; /* Spacing between cards */
-  padding: 0 40px; /* Padding for consistent spacing */
+  grid-template-columns: repeat(4, minmax(250px, 1fr)); 
+  grid-gap: 30px; 
+  padding: 0 40px; 
   margin: 0 auto;
   max-width: 100%;
 }
 
-/* Button styling */
+
 .see-more-button {
   background-color: #FF7373;
   color: white;
@@ -218,10 +217,10 @@
   margin-right: auto;
 }
 
-/* Responsive Design */
+
 @media (max-width: 1200px) {
   .story-list {
-    grid-template-columns: repeat(3, minmax(200px, 1fr)); /* 3 columns */
+    grid-template-columns: repeat(3, minmax(200px, 1fr));
   }
   .category-item span {
     font-size: 18px;
@@ -230,11 +229,11 @@
 
 @media (max-width: 768px) {
   .story-list {
-    grid-template-columns: repeat(2, minmax(150px, 1fr)); /* 2 columns */
+    grid-template-columns: repeat(2, minmax(150px, 1fr)); 
     padding: 0 20px;
   }
   .category-item {
-    min-width: 150px; /* Adjust category size */
+    min-width: 150px; 
   }
   .category-item span {
     font-size: 16px;
@@ -246,14 +245,14 @@
 
 @media (max-width: 480px) {
   .story-list {
-    grid-template-columns: 1fr; /* 1 column */
+    grid-template-columns: 1fr; 
     padding: 0 15px;
   }
   .category-item {
     min-width: 130px;
     aspect-ratio:142/95;
     border-radius: 15px;
-     /* Further reduce category size for small screens */
+     
   }
   .category-item span {
     font-size: 14px;

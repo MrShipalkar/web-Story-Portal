@@ -1,8 +1,8 @@
 // components/BookmarkedStories/BookmarkedStories.jsx
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import { fetchBookmarkedStories } from '../../services/storyServices'; // Import the service
 import './BookmarkedStories.css'
-import StoryCard from '../../components/Storycard/storyCard'; // Assuming you have a StoryCard component to display stories
+import StoryCard from '../../components/Storycard/storyCard'; 
 
 const BookmarkedStories = () => {
   const [bookmarkedStories, setBookmarkedStories] = useState([]);
@@ -10,15 +10,11 @@ const BookmarkedStories = () => {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    const fetchBookmarkedStories = async () => {
+    const loadBookmarkedStories = async () => {
       try {
-        const token = localStorage.getItem('token'); // Get the token from localStorage
-        const response = await axios.get('http://localhost:5000/api/story/bookmarked-stories', {
-          headers: {
-            Authorization: `Bearer ${token}`, // Pass the token in headers
-          },
-        });
-        setBookmarkedStories(response.data);
+        const token = localStorage.getItem('token'); 
+        const data = await fetchBookmarkedStories(token); 
+        setBookmarkedStories(data);
         setLoading(false);
       } catch (err) {
         setError('Failed to load bookmarked stories');
@@ -26,7 +22,7 @@ const BookmarkedStories = () => {
       }
     };
 
-    fetchBookmarkedStories();
+    loadBookmarkedStories();
   }, []);
 
   if (loading) return <div>Loading...</div>;

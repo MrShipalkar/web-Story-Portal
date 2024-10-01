@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import './SignIn.css'; 
+import './signin.css'; 
 import eye from '../../assets/eye.png';
 import close from '../../assets/close.png';
-import { loginUser } from '../../services/authServices'; // Import loginUser function
+import { loginUser } from '../../services/authServices'; 
 import { toast } from 'react-toastify';
 
 const SignIn = ({ onClose, onLogin }) => {
@@ -19,20 +19,32 @@ const SignIn = ({ onClose, onLogin }) => {
     e.preventDefault();
     try {
       const data = await loginUser(username, password); 
-  
-      // Show success message using toast
+      
+      
       toast.success(data.message, {
         onClose: () => {
-          onLogin(); // Notify header that the user is now logged in
-          onClose(); // Close the modal after the toast is shown
-          window.location.reload(); // Reload the page
+          onLogin();
+          onClose();
+          window.location.reload(); 
         },
       });
     } catch (error) {
-      setErrorMessage(error.message); // Show error message
-      toast.error(error.message); // Display error message using toast
+      
+      console.error('Login error:', error);
+  
+      
+      const errorMsg = error.response?.data?.message || 'Invalid username or password.';
+  
+     
+      setErrorMessage(errorMsg);
+  
+      
+      toast.error(errorMsg);
     }
   };
+  
+  
+  
   return (
     <>
       <div className="signin-overlay" onClick={onClose}></div>
@@ -71,7 +83,7 @@ const SignIn = ({ onClose, onLogin }) => {
             </span>
           </div>
 
-          {errorMessage && <p className="error-message">{errorMessage}</p>} {/* Show error */}
+          {errorMessage && <p className="error-message">{errorMessage}</p>} 
 
           <button type="submit" className="signin-btn">
             Login

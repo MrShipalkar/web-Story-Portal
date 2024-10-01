@@ -4,35 +4,34 @@ import leftArrow from '../../assets/leftArrow.png';
 import rightArrow from '../../assets/rightArrow.png';
 import crossicon from '../../assets/cross.png';
 import shareIcon from '../../assets/share.png';
-import likeIcon from '../../assets/heart.png'; // Unliked heart icon
-import likedIcon from '../../assets/likedHeart.png'; // Liked heart icon
-import bookmarkIcon from '../../assets/bookmark.png'; // Unbookmarked icon
-import bookmarkedIcon from '../../assets/bookmarked.png'; // Bookmarked icon
-import downloadIcon from '../../assets/download.png'; // Importing the download icon
-import { toggleLikeSlide, fetchUserLikedSlides, toggleBookmarkSlide, fetchUserBookmarkedSlides } from '../../services/storyServices'; // Import necessary functions
+import likeIcon from '../../assets/heart.png'; 
+import likedIcon from '../../assets/likedHeart.png'; 
+import bookmarkIcon from '../../assets/bookmark.png'; 
+import bookmarkedIcon from '../../assets/bookmarked.png'; 
+import downloadIcon from '../../assets/download.png'; 
+import { toggleLikeSlide, fetchUserLikedSlides, toggleBookmarkSlide, fetchUserBookmarkedSlides } from '../../services/storyServices'; 
 
-// Import or define the SignInModal component
-import SignInModal from '../signIn/signIn'; // Assuming you have a SignInModal component
+import SignInModal from '../signIn/signIn'; 
 
 const StoryModal = ({ story, onClose, initialSlide = 0 }) => {
   const [currentSlide, setCurrentSlide] = useState(initialSlide);
-  const [isLoggedIn, setIsLoggedIn] = useState(false); // Track login status
-  const [likedSlides, setLikedSlides] = useState([]); // Track which slides are liked by the user
-  const [bookmarkedSlides, setBookmarkedSlides] = useState([]); // Track bookmarked slides
-  const [notification, setNotification] = useState(false); // To show or hide the copied notification
-  const [showSignInModal, setShowSignInModal] = useState(false); // Control SignIn modal visibility
-  const slideDuration = 10; // Slide duration in seconds
+  const [isLoggedIn, setIsLoggedIn] = useState(false); 
+  const [likedSlides, setLikedSlides] = useState([]); 
+  const [bookmarkedSlides, setBookmarkedSlides] = useState([]);
+  const [notification, setNotification] = useState(false); 
+  const [showSignInModal, setShowSignInModal] = useState(false); 
+  const slideDuration = 10; 
 
-  const timerRef = useRef(null); // Ref to store the timer
-  const progressBarRef = useRef(null); // Ref for progress bar element
+  const timerRef = useRef(null); 
+  const progressBarRef = useRef(null); 
 
-  // Check for auth-token when the component mounts
+  
   useEffect(() => {
-    const authToken = localStorage.getItem('token'); // Check if auth-token exists
+    const authToken = localStorage.getItem('token'); 
 
     if (authToken) {
       setIsLoggedIn(true);
-      // Fetch liked and bookmarked slides for the current story
+      
       fetchLikedSlides(authToken);
       fetchBookmarkedSlides(authToken);
     } else {
@@ -40,50 +39,50 @@ const StoryModal = ({ story, onClose, initialSlide = 0 }) => {
     }
   }, [story._id]);
 
-  // Function to fetch liked slides from the backend
+  
   const fetchLikedSlides = async (authToken) => {
     try {
       const likedSlidesData = await fetchUserLikedSlides(story._id, authToken);
-      setLikedSlides(likedSlidesData); // Set the liked slides from the backend
+      setLikedSlides(likedSlidesData); 
     } catch (error) {
       console.error('Error fetching liked slides:', error);
     }
   };
 
-  // Function to fetch bookmarked slides from the backend
+  
   const fetchBookmarkedSlides = async (authToken) => {
     try {
       const response = await fetchUserBookmarkedSlides(story._id, authToken);
-      setBookmarkedSlides(response.bookmarkedSlides || []); // Set the bookmarked slides from the backend
+      setBookmarkedSlides(response.bookmarkedSlides || []); 
     } catch (error) {
       console.error('Error fetching bookmarked slides:', error);
     }
   };
 
-  // Function to show the SignIn modal when the user is not logged in
+  
   const showSignInModalHandler = () => {
     setShowSignInModal(true);
   };
 
-  // Function to close the SignIn modal
+  
   const closeSignInModalHandler = () => {
     setShowSignInModal(false);
   };
 
-  // Function to toggle bookmark/unbookmark
+  
   const handleBookmark = async () => {
-    const authToken = localStorage.getItem('token'); // Get the auth token
+    const authToken = localStorage.getItem('token'); 
 
     if (!authToken) {
-      showSignInModalHandler(); // Show SignIn modal if not logged in
+      showSignInModalHandler(); 
       return;
     }
 
     try {
-      // Call the API to bookmark/unbookmark the current slide
+     
       const response = await toggleBookmarkSlide(story._id, story.slides[currentSlide].slideNumber, authToken);
 
-      // Update the bookmarked slides state locally
+     
       if (bookmarkedSlides.includes(story.slides[currentSlide].slideNumber)) {
         setBookmarkedSlides((prevBookmarkedSlides) =>
           prevBookmarkedSlides.filter(slide => slide !== story.slides[currentSlide].slideNumber)
@@ -99,20 +98,20 @@ const StoryModal = ({ story, onClose, initialSlide = 0 }) => {
     }
   };
 
-  // Function to toggle like/unlike
+  
   const handleLike = async () => {
-    const authToken = localStorage.getItem('token'); // Get the auth token
+    const authToken = localStorage.getItem('token'); 
 
     if (!authToken) {
-      showSignInModalHandler(); // Show SignIn modal if not logged in
+      showSignInModalHandler(); 
       return;
     }
 
     try {
-      // Call the API to like/unlike the current slide
+      
       const response = await toggleLikeSlide(story._id, story.slides[currentSlide].slideNumber, authToken);
 
-      // Update the liked slides state locally
+      
       if (likedSlides.includes(story.slides[currentSlide].slideNumber)) {
         setLikedSlides((prevLikedSlides) => prevLikedSlides.filter(slide => slide !== story.slides[currentSlide].slideNumber));
         story.slides[currentSlide].likeCount -= 1;
@@ -125,17 +124,17 @@ const StoryModal = ({ story, onClose, initialSlide = 0 }) => {
     }
   };
 
-  // Function to go to the next slide
+  
   const goToNextSlide = () => {
     setCurrentSlide((prevSlide) => (prevSlide + 1) % story.slides.length); // Loop through slides
   };
 
-  // Function to go to the previous slide
+  
   const goToPreviousSlide = () => {
     setCurrentSlide((prevSlide) => (prevSlide === 0 ? story.slides.length - 1 : prevSlide - 1));
   };
 
-  // Function to copy the slide link to clipboard
+  
   const copyToClipboard = () => {
     if (story._id) {
       const currentSlideLink = `${window.location.origin}/stories/${story._id}/slides/${currentSlide + 1}`;
@@ -148,7 +147,7 @@ const StoryModal = ({ story, onClose, initialSlide = 0 }) => {
     }
   };
 
-  // Function to download the current slide image
+  
   const downloadImage = () => {
     const currentImageURL = story.slides[currentSlide].url;
     fetch(currentImageURL, { mode: 'cors' })
@@ -161,16 +160,16 @@ const StoryModal = ({ story, onClose, initialSlide = 0 }) => {
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);
-        window.URL.revokeObjectURL(url); // Free up memory
+        window.URL.revokeObjectURL(url); 
       })
       .catch(error => console.error('Image download error:', error));
   };
 
   useEffect(() => {
-    // Prevent background scrolling when modal opens
+   
     document.body.style.overflow = 'hidden';
 
-    // Reset the progress bar when the slide changes
+   
     if (progressBarRef.current) {
       progressBarRef.current.style.transition = 'none';
       progressBarRef.current.style.width = '0%';
@@ -183,12 +182,12 @@ const StoryModal = ({ story, onClose, initialSlide = 0 }) => {
       }
     }, 100);
 
-    // Set up the timer for moving to the next slide
+    
     timerRef.current = setTimeout(() => goToNextSlide(), slideDuration * 1000);
 
     return () => {
-      clearTimeout(timerRef.current); // Clear timeout on unmount or slide change
-      document.body.style.overflow = 'auto'; // Re-enable scrolling when modal is closed
+      clearTimeout(timerRef.current); 
+      document.body.style.overflow = 'auto'; 
     };
   }, [currentSlide]);
 
@@ -280,6 +279,13 @@ const StoryModal = ({ story, onClose, initialSlide = 0 }) => {
       {showSignInModal && (
         <SignInModal onClose={closeSignInModalHandler} /> 
       )}
+      {/*navigatinn button */}
+      <button className="story-modal-prev-btn" onClick={goToPreviousSlide}>
+        <img src={leftArrow} alt="Previous" />
+      </button>
+      <button className="story-modal-next-btn" onClick={goToNextSlide}>
+        <img src={rightArrow} alt="Next" />
+      </button>
     </div>
   );
 };

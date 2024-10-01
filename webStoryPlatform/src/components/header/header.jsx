@@ -5,7 +5,7 @@ import SignIn from '../signIn/signIn.jsx';
 import Bookmark from '../../assets/Bookmark.png';
 import ham from '../../assets/ham.png';
 import Profile from '../../assets/Profile.png';
-import cross from '../../assets/rescross.png'; // Close icon for responsive menu
+import cross from '../../assets/rescross.png'; 
 import AddStoryModal from '../addStoryModal/addStoryModal.jsx';
 import { useNavigate } from 'react-router-dom';
 
@@ -16,7 +16,7 @@ const Header = () => {
   const [isSignInModalOpen, setIsSignInModalOpen] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isAddStoryModalOpen, setIsAddStoryModalOpen] = useState(false);
-  const [isMobileView, setIsMobileView] = useState(false); // Track if we are in mobile view
+  const [isMobileView, setIsMobileView] = useState(false); 
   const navigate = useNavigate();
 
   const handleBookmarkClick = () => {
@@ -25,7 +25,7 @@ const Header = () => {
 
   const handleYourStoriesClick = () => {
     closeDropdown();
-    navigate('/your-stories'); // Navigate to the YourStories component
+    navigate('/your-stories'); 
   };
 
   useEffect(() => {
@@ -36,15 +36,15 @@ const Header = () => {
       setUsername(storedUsername);
     }
 
-    // Handle window resize to detect mobile view
+    
     const handleResize = () => {
       setIsMobileView(window.innerWidth < 768);
     };
 
-    handleResize(); // Check on initial load
+    handleResize(); 
     window.addEventListener('resize', handleResize);
 
-    return () => window.removeEventListener('resize', handleResize); // Clean up event listener
+    return () => window.removeEventListener('resize', handleResize); 
   }, []);
 
   useEffect(() => {

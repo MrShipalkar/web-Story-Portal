@@ -12,8 +12,8 @@ const UserSchema = new mongoose.Schema({
   },
   bookmarkedSlides: [{
     storyId: { type: mongoose.Schema.Types.ObjectId, ref: 'Story' },
-    slideNumber: { type: Number },  // Assuming you use slideNumber as a unique identifier within a story
-    _id: false // Prevent mongoose from creating a separate _id for this subdocument
+    slideNumber: { type: Number },  
+    _id: false 
   }]
 });
 
