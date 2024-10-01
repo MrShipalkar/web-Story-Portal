@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import './StoryCard.css'; 
+import './storyCard.css'; 
 import edit from '../../assets/edit.png';
 import EditStoryModal from '../editStoryModal/editStoryModal'; 
 import StoryModal from '../storymodel/StoryModal.jsx'; 
