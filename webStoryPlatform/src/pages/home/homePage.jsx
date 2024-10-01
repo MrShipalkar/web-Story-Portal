@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import StoryList from '../../components/Storylist/storylist.jsx';
 import { fetchStoriesByCategory, fetchUserStories } from '../../services/storyServices.js'; 
-import './HomePage.css'; 
+import './homePage.css'; 
 
 const categories = ["All", "Food", "Fashion", "Sports", "Travel", "Movie", "Education", "Business"]; 
 
