@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 
-const API_URL = 'http://localhost:5000/api/story'; 
+const API_URL = 'https://web-story-portal.onrender.com/api/story'; 
 
 // Fetch stories by category
 export const fetchStoriesByCategory = async (category) => {
