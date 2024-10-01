@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import './Register.css';
+import './register.css';
 import eye from '../../assets/eye.png';
 import close from '../../assets/close.png';
 import { registerUser } from '../../services/authServices'; 
