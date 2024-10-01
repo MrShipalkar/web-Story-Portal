@@ -4,7 +4,7 @@ import Register from '../register/register.jsx';
 import SignIn from '../signIn/signIn.jsx';
 import Bookmark from '../../assets/bookmark.png';
 import ham from '../../assets/ham.png';
-import Profile from '../../assets/Profile.png';
+import Profile from '../../assets/profile.png';
 import cross from '../../assets/rescross.png'; 
 import AddStoryModal from '../addStoryModal/addStoryModal.jsx';
 import { useNavigate } from 'react-router-dom';
