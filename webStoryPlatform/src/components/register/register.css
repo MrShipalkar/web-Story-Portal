@@ -117,10 +117,10 @@ body {
     background: rgba(0, 0, 0, 0.5);
     z-index: 999;
 }
-.error-message {
+.register-error-message {
     position: absolute;
     left: 50%;          
-    bottom: 28%;        
+    bottom: 25%;        
     transform: translateX(-50%);  
     color: #FF0E0E; 
     font-weight: 700;
@@ -166,7 +166,7 @@ body {
         right: 10px;
     }
 
-    .error-message {
+    .register-error-message {
         font-size: 13px;
         color:#ff0000 ;
         
@@ -207,7 +207,7 @@ body {
         right: 10px;
     }
 
-    .error-message {
+    .register-error-message {
         font-size: 13px;
     }
 }

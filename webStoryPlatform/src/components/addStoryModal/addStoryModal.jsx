@@ -137,6 +137,7 @@ const AddStoryModal = ({ onClose }) => {
                 </div>
 
                 <form onSubmit={handleSubmit}>
+          <h2 className='title'>Add story to feed</h2>
                     <div>
                         <label>Heading:</label>
                         <input
@@ -181,7 +182,7 @@ const AddStoryModal = ({ onClose }) => {
                         </select>
                         <p className='category-dis'>This field will be common for all slides</p>
                     </div>
-                    {errorMessage && <p className="error-message">{errorMessage}</p>}
+                    {errorMessage && <p className="add-error-message">{errorMessage}</p>}
                     <div className="btn-container">
                         <button type="button" className="previous-btn" onClick={handlePrevious}>
                             Previous

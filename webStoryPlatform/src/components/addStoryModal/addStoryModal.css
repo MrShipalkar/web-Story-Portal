@@ -198,10 +198,12 @@
     position: relative;
 }
 
-.error-message {
+.add-error-message {
+    position: absolute;
+    left: 30%;
     color: red;
     font-weight: bold;
-    margin-top: 105px;
+    /* margin-top: 105px; */
     text-align: center;
 }
 
@@ -270,7 +272,8 @@
     }
 
     .post-btn {
-        margin: auto;
+        margin-top: 20px;
+        /* margin: auto; */
         width: 115.87px;
         height: 41.3px;
     }
@@ -280,8 +283,8 @@
         bottom: 270px;
     }
 
-    .error-message {
-        margin-top: 0px;
+    .add-error-message {
+        margin-top: 10px;
     }
 
     .title {

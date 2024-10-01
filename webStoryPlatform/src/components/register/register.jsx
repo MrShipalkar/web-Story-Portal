@@ -89,7 +89,7 @@ const Register = ({ onClose, onLogin }) => {
             </span>
           </div>
 
-          {errorMessage && <p className="error-message">{errorMessage}</p>} 
+          {errorMessage && <p className="register-error-message">{errorMessage}</p>} 
 
           <button type="submit" className="register-btn">
             Register

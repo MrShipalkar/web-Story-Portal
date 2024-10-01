@@ -118,7 +118,7 @@ body {
     z-index: 999;
 }
 
-.error-message {
+.signin-error-message {
     position: absolute;
     left: 50%;          
     bottom: 28%;        
@@ -168,7 +168,7 @@ body {
         right: 10px;
     }
 
-    .error-message {
+    .signin-error-message {
         font-size: 13px;
     }
 }
@@ -207,7 +207,7 @@ body {
         right: 10px;
     }
 
-    .error-message {
+    .signin-error-message {
         font-size: 13px;
     }
 }

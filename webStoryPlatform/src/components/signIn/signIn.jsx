@@ -83,7 +83,7 @@ const SignIn = ({ onClose, onLogin }) => {
             </span>
           </div>
 
-          {errorMessage && <p className="error-message">{errorMessage}</p>} 
+          {errorMessage && <p className="signin-error-message">{errorMessage}</p>} 
 
           <button type="submit" className="signin-btn">
             Login
