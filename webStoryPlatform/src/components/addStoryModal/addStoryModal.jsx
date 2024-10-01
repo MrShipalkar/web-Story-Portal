@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import './AddStoryModal.css';
+import './addStoryModal.css';
 import CloseSlide from '../../assets/closeSlide.png';
 import { addStory } from '../../services/storyServices';
 import { toast } from 'react-toastify';
