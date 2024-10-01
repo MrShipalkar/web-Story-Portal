@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import './header.css';
 import Register from '../register/register.jsx';
 import SignIn from '../signIn/signIn.jsx';
-import Bookmark from '../../assets/Bookmark.png';
+import Bookmark from '../../assets/bookmark.png';
 import ham from '../../assets/ham.png';
 import Profile from '../../assets/Profile.png';
 import cross from '../../assets/rescross.png'; 
